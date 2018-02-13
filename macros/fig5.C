@@ -38,14 +38,14 @@ TGraphErrors * N1MCp22SUB3[ncbins];
 TGraphErrors * N1MCm22SUB3[ncbins];
 TGraphErrors * N1MC22SUB3[ncbins];
 
-void fig4() {
+void fig5() {
 
-    fin = new TFile("../data/data_fig4.root");
+    fin = new TFile("../data/data_fig5.root");
 
     // Average negative and positive side v1even
     for (int i = 0; i<ncbins; i++) {
-        N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.4_0.0/%d_%d/gA",cmin[i],cmax[i]));
-        N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.0_2.4/%d_%d/gA",cmin[i],cmax[i]));
+        N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.4_0.0/%d_%d/gintA",cmin[i],cmax[i]));
+        N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.0_2.4/%d_%d/gintA",cmin[i],cmax[i]));
         Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
         int num = N1MCp22SUB3[i]->GetN();
         for (int j = 0; j<num; j++) {
@@ -55,8 +55,13 @@ void fig4() {
             N1MCm22SUB3[i]->GetPoint(j, xm[j], ym[j]);
             ymerr[j] = N1MCm22SUB3[i]->GetErrorY(j);
 
-            ypm[j] = 0.5*(yp[j] + ym[j]);
-            ypmerr[j] = 0.5*sqrt( yperr[j]*yperr[j] + ymerr[j]*ymerr[j] );
+            if (xp[j]<0.0) {
+                ypm[j] = yp[j];
+                ypmerr[j] = yperr[j];
+            } else {
+                ypm[j] = ym[j];
+                ypmerr[j] = ymerr[j];
+            }
         }
         N1MC22SUB3[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
     }
@@ -69,12 +74,12 @@ void fig4() {
     c->Divide(2,1,0,0);
     TPad * pad1 = (TPad *) c->cd(1);
     pad1->SetTopMargin(0.07);
-    h1 = new TH1D("h1", "", 100, 0, 12);
+    h1 = new TH1D("h1", "", 100, -2.8, 2.8);
     h1->SetStats(0);
-    h1->SetXTitle("p_{T} (GeV/c)");
+    h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{even}");
     h1->GetXaxis()->CenterTitle();
-    h1->GetYaxis()->SetRangeUser(-0.042, 0.27);
+    h1->GetYaxis()->SetRangeUser(-0.03, 0.015);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
         N1MC22SUB3[i]->SetMarkerStyle(mrkstyle[i]);
@@ -89,9 +94,9 @@ void fig4() {
     tx0->Draw();
     TPaveText * tx1 = new TPaveText(0.24, 0.84, 0.56, 0.90, "NDC");
     SetTPaveTxt(tx1, 20);
-    tx1->AddText("|#eta| < 2.4");
+    tx1->AddText("0.3 < p_{T} < 3.0 GeV/c");
     tx1->Draw();
-    TLegend * leg1 = new TLegend(0.77, 0.62, 0.95, 0.89);
+    TLegend * leg1 = new TLegend(0.23, 0.20, 0.41, 0.47);
     SetLegend(leg1, 20);
     for (int i = 0; i<=5; i++) {
         leg1->AddEntry(N1MC22SUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
@@ -110,13 +115,13 @@ void fig4() {
         N1MC22SUB3[i]->SetLineColor(col[i-6]);
         N1MC22SUB3[i]->Draw("same p");
     }
-    TLegend * leg2 = new TLegend(0.70, 0.64, 0.92, 0.90);
+    TLegend * leg2 = new TLegend(0.05, 0.22, 0.26, 0.48);
     SetLegend(leg2, 20);
     for (int i = 6; i<ncbins; i++) {
         leg2->AddEntry(N1MC22SUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }
     leg2->Draw();
 
-    c->Print("../figures/fig4.pdf","pdf");
+    c->Print("../figures/fig5.pdf","pdf");
 
 }

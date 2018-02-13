@@ -37,7 +37,7 @@ TH1D * h2;
 TGraphErrors * N1HFfSUB3[ncbins];
 
 void fig2() {
-    
+
     fin = new TFile("../data/data_fig2.root");
 
     int col[6] = {kRed, kOrange+5, kBlue, kGreen+3, kCyan+2, kYellow+2};
