@@ -65,7 +65,7 @@ void fig3() {
     N1HFdSUB3->Draw("same p");
 
     N1HFeSUB3 = (TGraphErrors *) fin->Get("N1HFeSUB3/-2.0_2.0/20_60/gint");
-    N1HFeSUB3->SetMarkerStyle(224);
+    N1HFeSUB3->SetMarkerStyle(24);
     N1HFeSUB3->SetMarkerSize(1.2);
     N1HFeSUB3->SetMarkerColor(kGreen+2);
     N1HFeSUB3->SetLineColor(kGreen+2);

@@ -111,9 +111,9 @@ void fig6() {
     SetLegend(leg1, 18);
     leg1->AddEntry(N1HFfSUB3,"v_{1}^{part} CMS PbPb #sqrt{s_{NN}} = 5.02 TeV (10-60%)","p");
     leg1->AddEntry(ALICE_v1odd_eta_c10_60,"v_{1}^{spec} ALICE PbPb #sqrt{s_{NN}} = 2.76 TeV (10-60%)","p");
-    leg1->AddEntry(STAR_v1_3PC_62GeV_eta,"v_{1}^{part} STAR 3PC AuAu #sqrt{s_{NN}} = 0.2TeV (10-70%)","p");
-    leg1->AddEntry(STAR_v1_mix_62GeV_eta,"v_{1}^{part} STAR Mix AuAu #sqrt{s_{NN}} = 0.2TeV (10-70%)","p");
-    leg1->AddEntry(STAR_v1_ZDC_62GeV_eta,"v_{1}^{spec} STAR ZDC AuAu #sqrt{s_{NN}} = 0.2TeV (10-70%)","p");
+    leg1->AddEntry(STAR_v1_3PC_62GeV_eta,"v_{1}^{part} STAR 3PC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
+    leg1->AddEntry(STAR_v1_mix_62GeV_eta,"v_{1}^{part} STAR Mix AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
+    leg1->AddEntry(STAR_v1_ZDC_62GeV_eta,"v_{1}^{spec} STAR ZDC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
     leg1->Draw();
 
     c->Print("../figures/fig6.pdf","pdf");
