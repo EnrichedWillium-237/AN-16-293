@@ -76,10 +76,10 @@ void fig1() {
     N1BHFfSUB3_40_50->SetLineColor(kRed);
     N1BHFfSUB3_40_50->Draw("same p");
 
-    TPaveText * tx1 = new TPaveText(0.164, 0.930, 0.377, 0.97, "NDC");
-    SetTPaveTxt(tx1, 20);
-    tx1->AddText("#bf{CMS} #it{Preliminary}");
-    tx1->Draw();
+    TPaveText * tx0 = new TPaveText(0.164, 0.930, 0.377, 0.97, "NDC");
+    SetTPaveTxt(tx0, 20);
+    tx0->AddText("#bf{CMS} #it{Preliminary}");
+    tx0->Draw();
 
     TLegend * leg1 = new TLegend(0.19, 0.18, 0.39, 0.34);
     SetLegend(leg1, 20);

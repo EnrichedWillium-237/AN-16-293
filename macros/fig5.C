@@ -13,8 +13,8 @@
 using namespace std;
 
 static const int ncbins = 11;
-static const int cmin[]={0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60};
-static const int cmax[]={5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
+static const int cmin[] = {0,  5, 10, 15, 20, 25, 30, 35, 40, 50, 60};
+static const int cmax[] = {5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70};
 
 void SetTPaveTxt( TPaveText * txtemplate, int txtsize ) {
   txtemplate->SetFillColor(0);
