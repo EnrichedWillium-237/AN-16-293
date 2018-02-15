@@ -78,19 +78,21 @@ void fig3() {
     N1HFfSUB3->SetLineColor(kBlue);
     N1HFfSUB3->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.164, 0.930, 0.377, 0.97, "NDC");
+    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.26, 0.80, 0.58, 0.89, "NDC");
-    SetTPaveTxt(tx1, 20);
+    TPaveText * tx1 = new TPaveText(0.65, 0.75, 0.93, 0.89, "NDC");
+    SetTPaveTxt(tx1, 18);
+    tx1->SetTextAlign(32);
+    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
     tx1->AddText("0.3 < p_{T} < 3.0 GeV/c");
     tx1->AddText("20 - 60%");
     tx1->Draw();
 
-    TLegend * leg1 = new TLegend(0.65, 0.67, 0.90, 0.90);
-    SetLegend(leg1, 20);
+    TLegend * leg1 = new TLegend(0.19, 0.19, 0.50, 0.39);
+    SetLegend(leg1, 18);
     leg1->AddEntry(N1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
     leg1->AddEntry(N1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
     leg1->AddEntry(N1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");

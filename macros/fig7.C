@@ -93,7 +93,7 @@ void fig7() {
     TCanvas * c = new TCanvas("c", "c", 650, 600);
     TPad * pad1 = (TPad *) c->cd();
     pad1->SetTopMargin(0.07);
-    h1 = new TH1D("h1", "", 100, 0, 12);
+    h1 = new TH1D("h1", "", 100, 0, 8.5);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{even}");
@@ -108,19 +108,23 @@ void fig7() {
     N1MC22SUB3->SetMarkerColor(kBlue);
     N1MC22SUB3->SetLineColor(kBlue);
     N1MC22SUB3->Draw("same p");
-    TPaveText * tx0 = new TPaveText(0.193, 0.940, 0.409, 0.981, "NDC");
+
+    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary}");
+    tx0->AddText("#bf{CMS} #it{Preliminary}, PbPb #sqrt{s_{NN}} = 5.02 TeV, |#eta| < 2.4");
     tx0->Draw();
-    TPaveText * tx1 = new TPaveText(0.20, 0.85, 0.52, 0.91, "NDC");
-    SetTPaveTxt(tx1, 20);
-    tx1->AddText("|#eta| < 2.4");
-    tx1->Draw();
-    TLegend * leg1 = new TLegend(0.20, 0.72, 0.44, 0.86);
-    SetLegend(leg1, 20);
+
+    // TPaveText * tx1 = new TPaveText(0.20, 0.85, 0.52, 0.91, "NDC");
+    // SetTPaveTxt(tx1, 18);
+    // tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    // tx1->AddText("|#eta| < 2.4");
+    // tx1->Draw();
+
+    TLegend * leg1 = new TLegend(0.20, 0.76, 0.42, 0.90);
+    SetLegend(leg1, 16);
     leg1->AddEntry(N1MC22SUB3,Form("v_{1}^{part} CMS PbPb #sqrt{s_{NN}}=5.02 TeV (%d-%d%%)",cminREF,cmaxREF),"p");
-    leg1->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("v_{1}^{part} ATLAS PbPb #sqrt{s_{NN}}=2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
-    leg1->AddEntry(ALICE_v1even_eta_c5_80,"v_{1}^{spec} ALICE PbPb  #sqrt{s_{NN}}=2.76 TeV (5-10%)","p");
+    leg1->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("v_{1}^{part} ATLAS 2PC PbPb #sqrt{s_{NN}}=2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
+    leg1->AddEntry(ALICE_v1even_eta_c5_80,"v_{1}^{spec} ALICE ZDC PbPb  #sqrt{s_{NN}}=2.76 TeV (5-80%)","p");
     leg1->Draw();
 
     c->Print("../figures/fig7.pdf","pdf");

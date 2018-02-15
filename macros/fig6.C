@@ -38,6 +38,7 @@ TFile * finSyst;
 
 TH1D * h1;
 TGraphErrors * N1HFfSUB3;
+TGraphErrors * N1HFfSUB3_syst;
 TH1D * ALICE_v1odd_eta_c10_60;
 TGraphErrors * STAR_v1_3PC_62GeV_eta;
 TGraphErrors * STAR_v1_mix_62GeV_eta;
@@ -45,6 +46,14 @@ TGraphErrors * STAR_v1_ZDC_62GeV_eta;
 
 
 void fig6() {
+
+    // retrieve CMS results
+    finCMS = new TFile("../data/data_fig6.root","read");
+    N1HFfSUB3 = (TGraphErrors *) finCMS->Get("N1HFfSUB3/-2.0_2.0/10_60/gint");
+    N1HFfSUB3->SetMarkerStyle(21);
+    N1HFfSUB3->SetMarkerSize(1.2);
+    N1HFfSUB3->SetMarkerColor(kBlue);
+    N1HFfSUB3->SetLineColor(kBlue);
 
     // retrieve ALICE results
     finALICE = new TFile("../data/PRL_111_232302.root","read");
@@ -75,7 +84,23 @@ void fig6() {
     STAR_v1_ZDC_62GeV_eta->SetMarkerSize(1.1);
 
 
-    finCMS = new TFile("../data/data_fig6.root","read");
+    //-- systematics
+    finSyst = new TFile("../data/data_systematics.root","read");
+
+    Double_t x[50], y[50], xerr[50], ysyst[50];
+    int num = N1HFfSUB3->GetN();
+    for (int j = 0; j<num; j++) {
+        N1HFfSUB3->GetPoint(j, x[j], y[j]);
+        xerr[j] = 0.1;
+        TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_20_60"); // no significant difference between 10-60% and 20-60%
+        ysyst[j] = y[j] * hsyst->GetBinContent(1);
+        hsyst->Delete();
+    }
+    N1HFfSUB3_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1HFfSUB3_syst->SetLineColor(kGray);
+    N1HFfSUB3_syst->SetFillColor(kGray);
+    //--
+
 
     TCanvas * c = new TCanvas("c", "c", 650, 600);
     TPad * pad1 = (TPad *) c->cd();
@@ -85,36 +110,34 @@ void fig6() {
     h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{odd}");
     h1->GetXaxis()->CenterTitle();
-    h1->GetYaxis()->SetRangeUser(-0.025, 0.025);
+    h1->GetYaxis()->SetRangeUser(-0.016, 0.016);
     h1->Draw();
+    N1HFfSUB3_syst->Draw("2");
     ALICE_v1odd_eta_c10_60->Draw("same");
     STAR_v1_3PC_62GeV_eta->Draw("same p");
     STAR_v1_mix_62GeV_eta->Draw("same p");
     STAR_v1_ZDC_62GeV_eta->Draw("same p");
-    N1HFfSUB3 = (TGraphErrors *) finCMS->Get("N1HFfSUB3/-2.0_2.0/10_60/gint");
-    N1HFfSUB3->SetMarkerStyle(21);
-    N1HFfSUB3->SetMarkerSize(1.2);
-    N1HFfSUB3->SetMarkerColor(kBlue);
-    N1HFfSUB3->SetLineColor(kBlue);
     N1HFfSUB3->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.164, 0.930, 0.377, 0.97, "NDC");
+    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
 
-    // TPaveText * tx1 = new TPaveText(0.22, 0.83, 0.54, 0.89, "NDC");
-    // SetTPaveTxt(tx1, 20);
-    // tx1->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    // tx1->Draw();
+    TPaveText * tx1 = new TPaveText(0.64, 0.78, 0.91, 0.89, "NDC");
+    SetTPaveTxt(tx1, 18);
+    tx1->SetTextAlign(32);
+    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    tx1->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    tx1->Draw();
 
-    TLegend * leg1 = new TLegend(0.20, 0.18, 0.45, 0.38);
-    SetLegend(leg1, 18);
-    leg1->AddEntry(N1HFfSUB3,"v_{1}^{part} CMS PbPb #sqrt{s_{NN}} = 5.02 TeV (10-60%)","p");
-    leg1->AddEntry(ALICE_v1odd_eta_c10_60,"v_{1}^{spec} ALICE PbPb #sqrt{s_{NN}} = 2.76 TeV (10-60%)","p");
-    leg1->AddEntry(STAR_v1_3PC_62GeV_eta,"v_{1}^{part} STAR 3PC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
-    leg1->AddEntry(STAR_v1_mix_62GeV_eta,"v_{1}^{part} STAR Mix AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
-    leg1->AddEntry(STAR_v1_ZDC_62GeV_eta,"v_{1}^{spec} STAR ZDC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
+    TLegend * leg1 = new TLegend(0.20, 0.18, 0.41, 0.38);
+    SetLegend(leg1, 16);
+    leg1->AddEntry(N1HFfSUB3,"CMS (10-60%)","p");
+    leg1->AddEntry(ALICE_v1odd_eta_c10_60,"ALICE ZDC PbPb #sqrt{s_{NN}} = 2.76 TeV (10-60%)","p");
+    leg1->AddEntry(STAR_v1_3PC_62GeV_eta,"STAR 3PC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
+    leg1->AddEntry(STAR_v1_mix_62GeV_eta,"STAR Mix AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
+    leg1->AddEntry(STAR_v1_ZDC_62GeV_eta,"STAR ZDC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
     leg1->Draw();
 
     c->Print("../figures/fig6.pdf","pdf");

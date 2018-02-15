@@ -130,7 +130,7 @@ void fig1() {
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{odd}");
-    h1->GetYaxis()->SetRangeUser(-0.08, 0.08);
+    h1->GetYaxis()->SetRangeUser(-0.05, 0.05);
     h1->Draw();
     N1AHFfSUB3_10_15_syst->Draw("same 2");
     N1BHFfSUB3_10_15_syst->Draw("same 2");
@@ -141,13 +141,18 @@ void fig1() {
     N1AHFfSUB3_40_50->Draw("same p");
     N1BHFfSUB3_40_50->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.164, 0.930, 0.377, 0.97, "NDC");
+    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
 
-    TLegend * leg1 = new TLegend(0.19, 0.18, 0.39, 0.34);
-    SetLegend(leg1, 20);
+    TPaveText * tx1 = new TPaveText(0.20, 0.85, 0.47, 0.89, "NDC");
+    SetTPaveTxt(tx1, 18);
+    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
+    tx1->Draw();
+
+    TLegend * leg1 = new TLegend(0.19, 0.18, 0.39, 0.33);
+    SetLegend(leg1, 18);
     // leg->SetNColumns(2);
     leg1->AddEntry(N1AHFfSUB3_10_15,"-2 < #eta < 0 (10-15%)","p");
     leg1->AddEntry(N1BHFfSUB3_10_15,"0 < #eta < 2 (10-15%)","p");

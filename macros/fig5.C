@@ -38,10 +38,15 @@ TH1D * h2;
 TGraphErrors * N1MCp22SUB3[ncbins];
 TGraphErrors * N1MCm22SUB3[ncbins];
 TGraphErrors * N1MC22SUB3[ncbins];
+TGraphErrors * N1MC22SUB3_syst[ncbins];
 
 void fig5() {
 
     fin = new TFile("../data/data_fig5.root");
+
+    int col[6] = {kRed, kOrange+5, kBlue, kGreen+3, kCyan+2, kMagenta};
+    int mrkstyle[6] = {20, 25, 28, 21, 31, 29};
+    double mrksize[6] = {1.1, 1.0, 1.2, 1.0, 1.3, 1.4};
 
     // Average negative and positive side v1even
     for (int i = 0; i<ncbins; i++) {
@@ -67,9 +72,40 @@ void fig5() {
         N1MC22SUB3[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
     }
 
-    int col[6] = {kRed, kOrange+5, kBlue, kGreen+3, kCyan+2, kYellow+2};
-    int mrkstyle[6] = {20, 25, 28, 21, 31, 29};
-    double mrksize[6] = {1.1, 1.0, 1.2, 1.0, 1.3, 1.4};
+    for (int i = 0; i<=5; i++) {
+        N1MC22SUB3[i]->SetMarkerStyle(mrkstyle[i]);
+        N1MC22SUB3[i]->SetMarkerSize(mrksize[i]);
+        N1MC22SUB3[i]->SetMarkerColor(col[i]);
+        N1MC22SUB3[i]->SetLineColor(col[i]);
+    }
+    for (int i = 6; i<ncbins; i++) {
+        N1MC22SUB3[i]->SetMarkerStyle(mrkstyle[i-6]);
+        N1MC22SUB3[i]->SetMarkerSize(mrksize[i-6]);
+        N1MC22SUB3[i]->SetMarkerColor(col[i-6]);
+        N1MC22SUB3[i]->SetLineColor(col[i-6]);
+    }
+
+
+    //-- systematics
+    finSyst = new TFile("../data/data_systematics.root","read");
+
+    for (int i = 0; i<ncbins; i++) {
+        Double_t x[50], y[50], xerr[50], ysyst[50];
+        int num = N1MC22SUB3[i]->GetN();
+        for (int j = 0; j<num; j++) {
+            N1MC22SUB3[i]->GetPoint(j, x[j], y[j]);
+            xerr[j] = 0.1;
+            TH1D * hsyst = (TH1D *) finSyst->Get(Form("even_errors/even_%d_%d",cmin[i],cmax[i]));
+            ysyst[j] = y[j] * hsyst->GetBinContent(1);
+            hsyst->Delete();
+        }
+        N1MC22SUB3_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
+        N1MC22SUB3_syst[i]->SetLineWidth(2);
+        N1MC22SUB3_syst[i]->SetLineColor(kGray);
+        N1MC22SUB3_syst[i]->SetFillColor(kGray);
+    }
+    //--
+
 
     TCanvas * c = new TCanvas("c", "c", 1000, 600);
     c->Divide(2,1,0,0);
@@ -80,25 +116,27 @@ void fig5() {
     h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{even}");
     h1->GetXaxis()->CenterTitle();
-    h1->GetYaxis()->SetRangeUser(-0.03, 0.015);
+    h1->GetYaxis()->SetRangeUser(-0.024, 0.028);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
-        N1MC22SUB3[i]->SetMarkerStyle(mrkstyle[i]);
-        N1MC22SUB3[i]->SetMarkerSize(mrksize[i]);
-        N1MC22SUB3[i]->SetMarkerColor(col[i]);
-        N1MC22SUB3[i]->SetLineColor(col[i]);
-        N1MC22SUB3[i]->Draw("same p");
+        N1MC22SUB3_syst[i]->Draw("[]2");
+        N1MC22SUB3[i]->Draw("p");
     }
-    TPaveText * tx0 = new TPaveText(0.193, 0.940, 0.409, 0.981, "NDC");
+
+    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
-    TPaveText * tx1 = new TPaveText(0.24, 0.84, 0.56, 0.90, "NDC");
-    SetTPaveTxt(tx1, 20);
+
+    TPaveText * tx1 = new TPaveText(0.22, 0.80, 0.54, 0.90, "NDC");
+    SetTPaveTxt(tx1, 18);
+    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
     tx1->AddText("0.3 < p_{T} < 3.0 GeV/c");
     tx1->Draw();
-    TLegend * leg1 = new TLegend(0.23, 0.20, 0.41, 0.47);
-    SetLegend(leg1, 20);
+
+    TLegend * leg1 = new TLegend(0.24, 0.21, 0.56, 0.33);
+    SetLegend(leg1, 18);
+    leg1->SetNColumns(2);
     for (int i = 0; i<=5; i++) {
         leg1->AddEntry(N1MC22SUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }
@@ -110,14 +148,12 @@ void fig5() {
     h2 = (TH1D *) h1->Clone("h2");
     h2->Draw();
     for (int i = 6; i<ncbins; i++) {
-        N1MC22SUB3[i]->SetMarkerStyle(mrkstyle[i-6]);
-        N1MC22SUB3[i]->SetMarkerSize(mrksize[i-6]);
-        N1MC22SUB3[i]->SetMarkerColor(col[i-6]);
-        N1MC22SUB3[i]->SetLineColor(col[i-6]);
-        N1MC22SUB3[i]->Draw("same p");
+        N1MC22SUB3_syst[i]->Draw("[]2");
+        N1MC22SUB3[i]->Draw("p");
     }
-    TLegend * leg2 = new TLegend(0.05, 0.22, 0.26, 0.48);
-    SetLegend(leg2, 20);
+    TLegend * leg2 = new TLegend(0.05, 0.21, 0.44, 0.33);
+    SetLegend(leg2, 18);
+    leg2->SetNColumns(2);
     for (int i = 6; i<ncbins; i++) {
         leg2->AddEntry(N1MC22SUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }
