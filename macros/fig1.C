@@ -82,8 +82,8 @@ void fig1() {
         hsyst->Delete();
     }
     N1AHFfSUB3_10_15_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1AHFfSUB3_10_15_syst->SetLineColor(kGray);
-    N1AHFfSUB3_10_15_syst->SetFillColor(kGray);
+    N1AHFfSUB3_10_15_syst->SetLineColor(kBlue-10);
+    N1AHFfSUB3_10_15_syst->SetFillColor(kBlue-10);
 
     num = N1BHFfSUB3_10_15->GetN();
     for (int j = 0; j<num; j++) {
@@ -94,8 +94,8 @@ void fig1() {
         hsyst->Delete();
     }
     N1BHFfSUB3_10_15_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1BHFfSUB3_10_15_syst->SetLineColor(kGray);
-    N1BHFfSUB3_10_15_syst->SetFillColor(kGray);
+    N1BHFfSUB3_10_15_syst->SetLineColor(kBlue-10);
+    N1BHFfSUB3_10_15_syst->SetFillColor(kBlue-10);
 
     num = N1AHFfSUB3_40_50->GetN();
     for (int j = 0; j<num; j++) {
@@ -106,8 +106,8 @@ void fig1() {
         hsyst->Delete();
     }
     N1AHFfSUB3_40_50_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1AHFfSUB3_40_50_syst->SetLineColor(kGray);
-    N1AHFfSUB3_40_50_syst->SetFillColor(kGray);
+    N1AHFfSUB3_40_50_syst->SetLineColor(kBlue-10);
+    N1AHFfSUB3_40_50_syst->SetFillColor(kBlue-10);
 
     num = N1BHFfSUB3_40_50->GetN();
     for (int j = 0; j<num; j++) {
@@ -118,8 +118,8 @@ void fig1() {
         hsyst->Delete();
     }
     N1BHFfSUB3_40_50_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1BHFfSUB3_40_50_syst->SetLineColor(kGray);
-    N1BHFfSUB3_40_50_syst->SetFillColor(kGray);
+    N1BHFfSUB3_40_50_syst->SetLineColor(kBlue-10);
+    N1BHFfSUB3_40_50_syst->SetFillColor(kBlue-10);
     //--
 
 

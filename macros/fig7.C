@@ -39,6 +39,7 @@ TH1D * h1;
 TGraphErrors * N1MCp22SUB3;
 TGraphErrors * N1MCm22SUB3;
 TGraphErrors * N1MC22SUB3;
+TGraphErrors * N1MC22SUB3_syst;
 TH1D * ATLAS_v1even_2PC_PbPb_30_40;
 TH1D * ALICE_v1even_eta_c5_80;
 
@@ -87,7 +88,28 @@ void fig7() {
         ypmerr[j] = 0.5*sqrt( yperr[j]*yperr[j] + ymerr[j]*ymerr[j] );
     }
     N1MC22SUB3 = new TGraphErrors(num, xp, ypm, 0, ypmerr);
+    N1MC22SUB3->SetMarkerStyle(21);
+    N1MC22SUB3->SetMarkerSize(1.2);
+    N1MC22SUB3->SetMarkerColor(kBlue);
+    N1MC22SUB3->SetLineColor(kBlue);
 
+
+    //-- systematics
+    finSyst = new TFile("../data/data_systematics.root","read");
+
+    Double_t x[50], y[50], xerr[50], ysyst[50];
+    num = N1MC22SUB3->GetN();
+    for (int j = 0; j<num; j++) {
+        N1MC22SUB3->GetPoint(j, x[j], y[j]);
+        xerr[j] = 0.1;
+        TH1D * hsyst = (TH1D *) finSyst->Get("even_errors/even_30_35"); // not significantly different from 30-40
+        ysyst[j] = y[j] * hsyst->GetBinContent(1);
+        hsyst->Delete();
+    }
+    N1MC22SUB3_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1MC22SUB3_syst->SetLineColor(kBlue-10);
+    N1MC22SUB3_syst->SetFillColor(kBlue-10);
+    //--
 
 
     TCanvas * c = new TCanvas("c", "c", 650, 600);
@@ -103,11 +125,9 @@ void fig7() {
     ATLAS_v1even_2PC_PbPb_30_40->Draw("same E3");
     ATLAS_v1even_2PC_PbPb_30_40->Draw("same p");
     ALICE_v1even_eta_c5_80->Draw("same p");
-    N1MC22SUB3->SetMarkerStyle(21);
-    N1MC22SUB3->SetMarkerSize(1.2);
-    N1MC22SUB3->SetMarkerColor(kBlue);
-    N1MC22SUB3->SetLineColor(kBlue);
+    N1MC22SUB3_syst->Draw("same 2");
     N1MC22SUB3->Draw("same p");
+    cout<<"here"<<endl;
 
     TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
     SetTPaveTxt(tx0, 20);

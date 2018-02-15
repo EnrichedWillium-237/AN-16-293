@@ -97,8 +97,8 @@ void fig6() {
         hsyst->Delete();
     }
     N1HFfSUB3_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1HFfSUB3_syst->SetLineColor(kGray);
-    N1HFfSUB3_syst->SetFillColor(kGray);
+    N1HFfSUB3_syst->SetLineColor(kBlue-10);
+    N1HFfSUB3_syst->SetFillColor(kBlue-10);
     //--
 
 

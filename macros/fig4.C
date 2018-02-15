@@ -95,8 +95,8 @@ void fig4() {
             hsyst->Delete();
         }
         N1MC22SUB3_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1MC22SUB3_syst[i]->SetLineColor(kGray);
-        N1MC22SUB3_syst[i]->SetFillColor(kGray);
+        N1MC22SUB3_syst[i]->SetLineColor(kBlue-10);
+        N1MC22SUB3_syst[i]->SetFillColor(kBlue-10);
     }
     //--
 
