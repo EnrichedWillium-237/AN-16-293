@@ -34,6 +34,7 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 TFile * finCMS;
 TFile * finATLAS;
 TFile * finALICE;
+TFile * finSyst;
 TH1D * h1;
 TGraphErrors * N1MCp22SUB3;
 TGraphErrors * N1MCm22SUB3;

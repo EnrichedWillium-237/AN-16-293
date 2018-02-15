@@ -32,9 +32,11 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 }
 
 TFile * fin;
+TFile * finSyst;
 TH1D * h1;
 TH1D * h2;
 TGraphErrors * N1HFfSUB3[ncbins];
+TGraphErrors * N1HFfSUB3_syst[ncbins];
 
 void fig2() {
 
@@ -43,6 +45,42 @@ void fig2() {
     int col[6] = {kRed, kOrange+5, kBlue, kGreen+3, kCyan+2, kYellow+2};
     int mrkstyle[6] = {20, 25, 28, 21, 31, 29};
     double mrksize[6] = {1.1, 1.0, 1.2, 1.0, 1.3, 1.4};
+
+    for (int i = 0; i<=5; i++) {
+        N1HFfSUB3[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB3/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
+        N1HFfSUB3[i]->SetMarkerStyle(mrkstyle[i]);
+        N1HFfSUB3[i]->SetMarkerSize(mrksize[i]);
+        N1HFfSUB3[i]->SetMarkerColor(col[i]);
+        N1HFfSUB3[i]->SetLineColor(col[i]);
+    }
+    for (int i = 6; i<ncbins; i++) {
+        N1HFfSUB3[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB3/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
+        N1HFfSUB3[i]->SetMarkerStyle(mrkstyle[i-6]);
+        N1HFfSUB3[i]->SetMarkerSize(mrksize[i-6]);
+        N1HFfSUB3[i]->SetMarkerColor(col[i-6]);
+        N1HFfSUB3[i]->SetLineColor(col[i-6]);
+    }
+
+
+    //-- systematics
+    finSyst = new TFile("../data/data_systematics.root","read");
+
+    for (int i = 0; i<ncbins; i++) {
+        Double_t x[50], y[50], xerr[50], ysyst[50];
+        int num = N1HFfSUB3[i]->GetN();
+        for (int j = 0; j<num; j++) {
+            N1HFfSUB3[i]->GetPoint(j, x[j], y[j]);
+            xerr[j] = 0.1;
+            TH1D * hsyst = (TH1D *) finSyst->Get(Form("odd_errors/odd_%d_%d",cmin[i],cmax[i]));
+            ysyst[j] = y[j] * hsyst->GetBinContent(1);
+            hsyst->Delete();
+        }
+        N1HFfSUB3_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
+        N1HFfSUB3_syst[i]->SetLineColor(kGray);
+        N1HFfSUB3_syst[i]->SetFillColor(kGray);
+    }
+    //--
+
 
     TCanvas * c = new TCanvas("c", "c", 1000, 600);
     c->Divide(2,1,0,0);
@@ -56,11 +94,7 @@ void fig2() {
     h1->GetYaxis()->SetRangeUser(-0.042, 0.042);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
-        N1HFfSUB3[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB3/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
-        N1HFfSUB3[i]->SetMarkerStyle(mrkstyle[i]);
-        N1HFfSUB3[i]->SetMarkerSize(mrksize[i]);
-        N1HFfSUB3[i]->SetMarkerColor(col[i]);
-        N1HFfSUB3[i]->SetLineColor(col[i]);
+        N1HFfSUB3_syst[i]->Draw("same 2");
         N1HFfSUB3[i]->Draw("same p");
     }
     TPaveText * tx0 = new TPaveText(0.193, 0.940, 0.409, 0.981, "NDC");
@@ -84,11 +118,7 @@ void fig2() {
     h2 = (TH1D *) h1->Clone("h2");
     h2->Draw();
     for (int i = 6; i<ncbins; i++) {
-        N1HFfSUB3[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB3/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
-        N1HFfSUB3[i]->SetMarkerStyle(mrkstyle[i-6]);
-        N1HFfSUB3[i]->SetMarkerSize(mrksize[i-6]);
-        N1HFfSUB3[i]->SetMarkerColor(col[i-6]);
-        N1HFfSUB3[i]->SetLineColor(col[i-6]);
+        N1HFfSUB3_syst[i]->Draw("same 2");
         N1HFfSUB3[i]->Draw("same p");
     }
     TLegend * leg2 = new TLegend(0.05, 0.23, 0.30, 0.47);

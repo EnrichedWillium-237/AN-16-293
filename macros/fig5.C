@@ -32,6 +32,7 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 }
 
 TFile * fin;
+TFile * finSyst;
 TH1D * h1;
 TH1D * h2;
 TGraphErrors * N1MCp22SUB3[ncbins];

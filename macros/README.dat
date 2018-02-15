@@ -1,0 +1,97 @@
+All CMS v1odd values are calculated using a three subevent scalar-product method using the standard eta-de
+pendent event plane weighting.
+
+When measuring tracks with respect to the HF-, the subevent windows used are
+A: -5.0 < eta < -4.5
+B: 3.0 < eta < 5.0
+C: 0.0 < eta < 0.5
+
+When measuring tracks with respect to the HF+, the subevent windows used are
+A: 4.5 < eta < 5.0
+B: -5.0 < eta < -3.0
+C: -0.5 < eta < 0.0
+
+
+All CMS v1even values are calculated using a 3 subevent scalar-product method with pT-dependent event
+plane weighting to remove non-flow effects.
+
+When measuring tracks in positive eta, the subevent windows used are
+A: -2.4 < eta < -2.0
+B: 0.0 < eta < 0.5
+C: 2.0 < eta < 2.4
+
+When measuring tracks in negative eta, the subevent windows used are
+A: 2.0 < eta < 2.4
+B: -0.5 < eta < 0.0
+C: -2.4 < eta < -2.0
+
+//------------------
+
+fig1.C
+
+Plot of v1odd as a function of pT for the 10-15% and 40-50% centrality ranges.
+The eta dependence of v1odd is shown by averaging v1odd in the forward (0 < eta < 2) and backward (-2 < eta < 0) rapidity ranges.
+
+An overall negative (positive) trend for v1odd(pT) is observed in forward (backward) rapidities.
+
+This trend is present for the purpose of justifying a measurement of an integrated v1odd as a function of pseudorapidity.
+
+//------------------
+
+fig2.C
+
+Plot of v1odd as a function of eta for centralities 0-30% (left pane) and 30-70% (right pane).
+
+The integrated pT range is 0.3 < pT < 3.0.
+
+This figure shows the first measurement of v1odd using a participant event plane ever made at the LHC.
+
+//------------------
+
+fig3.C
+
+Plot of v1odd as a function of eta using different cuts on eta for the HF event plane.
+
+When the inner regions of the HF are correlated with tracks, a strong turn-around behavior is seen in the v1odd signal near |eta| = 1.  Restricting the HF event plane to the outer sides of the calorimeter shows this turn-around behavior vanish.
+
+This plot shows clear evidence of non-flow when the event plane is too near to the particles of interest and justifies maintaining an eta gap between HF event plane and tracks of greater than 2.
+
+The centrality range of 20-60% is chosen for sake of statistics.
+
+//------------------
+
+fig4.C
+
+Plot of v1even as a function of pT for centralities 0-30% (left pane) and 30-70% (right pane).
+
+v1even in positive and negative eta are calculated separately using the event plane windows discussed above and then averaged together to provide a complete measurement of the eta range |eta| < 2.4.
+
+//------------------
+
+Plot of v1even as a function of eta.
+
+As with the v1odd(eta) measurement, this is the first measurement of v1even(eta) using a participant event plane made at the LHC.
+
+//------------------
+
+fig6.C
+
+Comparison of integrated v1odd(eta) measurement with published results.
+
+The ALICE results (Phys. Rev. Lett. 111 (2013) 232302) measures v1odd in PbPb collisions at $sqrt{s_{NN}} = 2.76 TeV.  The ALICE measurement is made using a similar scalar-product technique as the CMS analysis, using the ALICE ZDCs (|eta| > 8.3).  Unlike the CMS measurement, the ALICE measurement uses subevent windows made up of spectator particles.  A clear difference is observed between the CMS v1odd using a participant event plane and the ALICE v1odd using spectators.
+
+The STAR results (Phys. Rev. C 73 (2006) 034903) measure v1odd in AuAu collisions at $sqrt{s_{NN}} = 62.4 GeV.  STAR has made measurements of v1odd using a three-particle cummulant (3PC), mixed harmonic (Mix), and event plane (ZDC) methods.  The 3PC and Mix methods measure v1odd with respect to a participant plane while the ZDC uses the spectator in a way similar to the ALICE measurement.
+
+No difference is observed between the participant and spectator v1odd and both are in agreement with the participant CMS measurement.  The ALICE spectator measurement is observed to be much smaller in magnitude than either the CMS or STAR results, showing a strong disagreement between participant and spectator v1odd at LHC energies.
+
+//------------------
+
+fig7.C
+
+Comparison of v1even(pT) measurement with published results.
+
+The ALICE results are measured using the same technique as in fig6.  Similar to v1odd, the published spectator v1even is significantly smaller in magnitude than the participant.
+
+The ATLAS results (Phys. Rev. C86 (2012) 014907) measures v1even in PbPb collisions at $sqrt{s_{NN}} = 2.76 TeV.  The ATLAS measurement is made using a two-particle correlation technique that measures v1even using participants.  The ATLAS results are in strong agreement with CMS.
+
+//------------------

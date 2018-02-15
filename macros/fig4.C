@@ -32,6 +32,7 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 }
 
 TFile * fin;
+TFile * finSyst;
 TH1D * h1;
 TH1D * h2;
 TGraphErrors * N1MCp22SUB3[ncbins];
@@ -69,7 +70,7 @@ void fig4() {
     c->Divide(2,1,0,0);
     TPad * pad1 = (TPad *) c->cd(1);
     pad1->SetTopMargin(0.07);
-    h1 = new TH1D("h1", "", 100, 0, 12);
+    h1 = new TH1D("h1", "", 100, 0, 8);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{even}");
