@@ -36,10 +36,10 @@ TFile * finATLAS;
 TFile * finALICE;
 TFile * finSyst;
 TH1D * h1;
-TGraphErrors * N1MCp22SUB3;
-TGraphErrors * N1MCm22SUB3;
-TGraphErrors * N1MC22SUB3;
-TGraphErrors * N1MC22SUB3_syst;
+TGraphErrors * N1MCp22SUB2;
+TGraphErrors * N1MCm22SUB2;
+TGraphErrors * N1MC22SUB2;
+TGraphErrors * N1MC22SUB2_syst;
 TH1D * ATLAS_v1even_2PC_PbPb_30_40;
 TH1D * ALICE_v1even_eta_c5_80;
 
@@ -73,42 +73,42 @@ void fig7() {
     ALICE_v1even_eta_c5_80->SetMarkerSize(1.2);
 
     // Average negative and positive side v1even
-    N1MCp22SUB3 = (TGraphErrors *) finCMS->Get(Form("N1MCp22SUB3/-2.4_0.0/%d_%d/gA",cminREF,cmaxREF));
-    N1MCm22SUB3 = (TGraphErrors *) finCMS->Get(Form("N1MCm22SUB3/0.0_2.4/%d_%d/gA",cminREF,cmaxREF));
+    N1MCp22SUB2 = (TGraphErrors *) finCMS->Get(Form("N1MCp22SUB2/-2.4_-0.4/%d_%d/gA",cminREF,cmaxREF));
+    N1MCm22SUB2 = (TGraphErrors *) finCMS->Get(Form("N1MCm22SUB2/0.4_2.4/%d_%d/gA",cminREF,cmaxREF));
     Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
-    int num = N1MCp22SUB3->GetN();
+    int num = N1MCp22SUB2->GetN();
     for (int j = 0; j<num; j++) {
-        N1MCp22SUB3->GetPoint(j, xp[j], yp[j]);
-        yperr[j] = N1MCp22SUB3->GetErrorY(j);
+        N1MCp22SUB2->GetPoint(j, xp[j], yp[j]);
+        yperr[j] = N1MCp22SUB2->GetErrorY(j);
 
-        N1MCm22SUB3->GetPoint(j, xm[j], ym[j]);
-        ymerr[j] = N1MCm22SUB3->GetErrorY(j);
+        N1MCm22SUB2->GetPoint(j, xm[j], ym[j]);
+        ymerr[j] = N1MCm22SUB2->GetErrorY(j);
 
         ypm[j] = 0.5*(yp[j] + ym[j]);
         ypmerr[j] = 0.5*sqrt( yperr[j]*yperr[j] + ymerr[j]*ymerr[j] );
     }
-    N1MC22SUB3 = new TGraphErrors(num, xp, ypm, 0, ypmerr);
-    N1MC22SUB3->SetMarkerStyle(21);
-    N1MC22SUB3->SetMarkerSize(1.2);
-    N1MC22SUB3->SetMarkerColor(kBlue);
-    N1MC22SUB3->SetLineColor(kBlue);
+    N1MC22SUB2 = new TGraphErrors(num, xp, ypm, 0, ypmerr);
+    N1MC22SUB2->SetMarkerStyle(21);
+    N1MC22SUB2->SetMarkerSize(1.2);
+    N1MC22SUB2->SetMarkerColor(kBlue);
+    N1MC22SUB2->SetLineColor(kBlue);
 
 
     //-- systematics
     finSyst = new TFile("../data/data_systematics.root","read");
 
     Double_t x[50], y[50], xerr[50], ysyst[50];
-    num = N1MC22SUB3->GetN();
+    num = N1MC22SUB2->GetN();
     for (int j = 0; j<num; j++) {
-        N1MC22SUB3->GetPoint(j, x[j], y[j]);
+        N1MC22SUB2->GetPoint(j, x[j], y[j]);
         xerr[j] = 0.1;
         TH1D * hsyst = (TH1D *) finSyst->Get("even_errors/even_30_35"); // not significantly different from 30-40
         ysyst[j] = y[j] * hsyst->GetBinContent(1);
         hsyst->Delete();
     }
-    N1MC22SUB3_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1MC22SUB3_syst->SetLineColor(kBlue-10);
-    N1MC22SUB3_syst->SetFillColor(kBlue-10);
+    N1MC22SUB2_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1MC22SUB2_syst->SetLineColor(kBlue-10);
+    N1MC22SUB2_syst->SetFillColor(kBlue-10);
     //--
 
 
@@ -125,13 +125,13 @@ void fig7() {
     ATLAS_v1even_2PC_PbPb_30_40->Draw("same E3");
     ATLAS_v1even_2PC_PbPb_30_40->Draw("same p");
     ALICE_v1even_eta_c5_80->Draw("same p");
-    N1MC22SUB3_syst->Draw("same 2");
-    N1MC22SUB3->Draw("same p");
+    N1MC22SUB2_syst->Draw("same 2");
+    N1MC22SUB2->Draw("same p");
     cout<<"here"<<endl;
 
     TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary}, PbPb #sqrt{s_{NN}} = 5.02 TeV, |#eta| < 2.4");
+    tx0->AddText("#bf{CMS} #it{Preliminary}, PbPb #sqrt{s_{NN}} = 5.02 TeV, 0.4 < |#eta| < 2.4");
     tx0->Draw();
 
     // TPaveText * tx1 = new TPaveText(0.20, 0.85, 0.52, 0.91, "NDC");
@@ -141,10 +141,10 @@ void fig7() {
     // tx1->Draw();
 
     TLegend * leg1 = new TLegend(0.20, 0.76, 0.42, 0.90);
-    SetLegend(leg1, 16);
-    leg1->AddEntry(N1MC22SUB3,Form("v_{1}^{part} CMS PbPb #sqrt{s_{NN}}=5.02 TeV (%d-%d%%)",cminREF,cmaxREF),"p");
-    leg1->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("v_{1}^{part} ATLAS 2PC PbPb #sqrt{s_{NN}}=2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
-    leg1->AddEntry(ALICE_v1even_eta_c5_80,"v_{1}^{spec} ALICE ZDC PbPb  #sqrt{s_{NN}}=2.76 TeV (5-80%)","p");
+    SetLegend(leg1, 18);
+    leg1->AddEntry(N1MC22SUB2,Form("CMS PbPb #sqrt{s_{NN}}=5.02 TeV (%d-%d%%)",cminREF,cmaxREF),"p");
+    leg1->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("ATLAS 2PC PbPb #sqrt{s_{NN}}=2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
+    leg1->AddEntry(ALICE_v1even_eta_c5_80,"ALICE ZDC PbPb  #sqrt{s_{NN}}=2.76 TeV (5-80%)","p");
     leg1->Draw();
 
     c->Print("../figures/fig7.pdf","pdf");

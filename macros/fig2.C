@@ -35,8 +35,8 @@ TFile * fin;
 TFile * finSyst;
 TH1D * h1;
 TH1D * h2;
-TGraphErrors * N1HFfSUB3[ncbins];
-TGraphErrors * N1HFfSUB3_syst[ncbins];
+TGraphErrors * N1HFfSUB2[ncbins];
+TGraphErrors * N1HFfSUB2_syst[ncbins];
 
 void fig2() {
 
@@ -47,18 +47,18 @@ void fig2() {
     double mrksize[6] = {1.1, 1.0, 1.2, 1.0, 1.3, 1.4};
 
     for (int i = 0; i<=5; i++) {
-        N1HFfSUB3[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB3/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
-        N1HFfSUB3[i]->SetMarkerStyle(mrkstyle[i]);
-        N1HFfSUB3[i]->SetMarkerSize(mrksize[i]);
-        N1HFfSUB3[i]->SetMarkerColor(col[i]);
-        N1HFfSUB3[i]->SetLineColor(col[i]);
+        N1HFfSUB2[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB2/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
+        N1HFfSUB2[i]->SetMarkerStyle(mrkstyle[i]);
+        N1HFfSUB2[i]->SetMarkerSize(mrksize[i]);
+        N1HFfSUB2[i]->SetMarkerColor(col[i]);
+        N1HFfSUB2[i]->SetLineColor(col[i]);
     }
     for (int i = 6; i<ncbins; i++) {
-        N1HFfSUB3[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB3/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
-        N1HFfSUB3[i]->SetMarkerStyle(mrkstyle[i-6]);
-        N1HFfSUB3[i]->SetMarkerSize(mrksize[i-6]);
-        N1HFfSUB3[i]->SetMarkerColor(col[i-6]);
-        N1HFfSUB3[i]->SetLineColor(col[i-6]);
+        N1HFfSUB2[i] = (TGraphErrors *) fin->Get(Form("N1HFfSUB2/-2.0_2.0/%d_%d/gint",cmin[i],cmax[i]));
+        N1HFfSUB2[i]->SetMarkerStyle(mrkstyle[i-6]);
+        N1HFfSUB2[i]->SetMarkerSize(mrksize[i-6]);
+        N1HFfSUB2[i]->SetMarkerColor(col[i-6]);
+        N1HFfSUB2[i]->SetLineColor(col[i-6]);
     }
 
 
@@ -67,17 +67,17 @@ void fig2() {
 
     for (int i = 0; i<ncbins; i++) {
         Double_t x[50], y[50], xerr[50], ysyst[50];
-        int num = N1HFfSUB3[i]->GetN();
+        int num = N1HFfSUB2[i]->GetN();
         for (int j = 0; j<num; j++) {
-            N1HFfSUB3[i]->GetPoint(j, x[j], y[j]);
+            N1HFfSUB2[i]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.1;
             TH1D * hsyst = (TH1D *) finSyst->Get(Form("odd_errors/odd_%d_%d",cmin[i],cmax[i]));
             ysyst[j] = y[j] * hsyst->GetBinContent(1);
             hsyst->Delete();
         }
-        N1HFfSUB3_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1HFfSUB3_syst[i]->SetLineColor(kBlue-10);
-        N1HFfSUB3_syst[i]->SetFillColor(kBlue-10);
+        N1HFfSUB2_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
+        N1HFfSUB2_syst[i]->SetLineColor(kBlue-10);
+        N1HFfSUB2_syst[i]->SetFillColor(kBlue-10);
     }
     //--
 
@@ -94,13 +94,13 @@ void fig2() {
     h1->GetYaxis()->SetRangeUser(-0.042, 0.042);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
-        N1HFfSUB3_syst[i]->Draw("same 2");
+        N1HFfSUB2_syst[i]->Draw("same 2");
     }
     for (int i = 0; i<=5; i++) {
-        N1HFfSUB3[i]->Draw("same p");
+        N1HFfSUB2[i]->Draw("same p");
     }
 
-    TPaveText * tx0 = new TPaveText(0.182, 0.944, 0.397, 0.982, "NDC");
+    TPaveText * tx0 = new TPaveText(0.184, 0.947, 0.399, 0.986, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
@@ -114,7 +114,7 @@ void fig2() {
     TLegend * leg1 = new TLegend(0.23, 0.20, 0.48, 0.47);
     SetLegend(leg1, 18);
     for (int i = 0; i<=5; i++) {
-        leg1->AddEntry(N1HFfSUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
+        leg1->AddEntry(N1HFfSUB2[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }
     leg1->Draw();
 
@@ -124,15 +124,15 @@ void fig2() {
     h2 = (TH1D *) h1->Clone("h2");
     h2->Draw();
     for (int i = 6; i<ncbins; i++) {
-        N1HFfSUB3_syst[i]->Draw("same 2");
+        N1HFfSUB2_syst[i]->Draw("same 2");
     }
     for (int i = 6; i<ncbins; i++) {
-        N1HFfSUB3[i]->Draw("same p");
+        N1HFfSUB2[i]->Draw("same p");
     }
     TLegend * leg2 = new TLegend(0.05, 0.23, 0.30, 0.47);
     SetLegend(leg2, 18);
     for (int i = 6; i<ncbins; i++) {
-        leg2->AddEntry(N1HFfSUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
+        leg2->AddEntry(N1HFfSUB2[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }
     leg2->Draw();
 
