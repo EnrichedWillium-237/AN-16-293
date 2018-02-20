@@ -142,11 +142,12 @@ void fig7() {
 
     TLegend * leg1 = new TLegend(0.20, 0.76, 0.42, 0.90);
     SetLegend(leg1, 18);
-    leg1->AddEntry(N1MC22SUB2,Form("CMS PbPb #sqrt{s_{NN}}=5.02 TeV (%d-%d%%)",cminREF,cmaxREF),"p");
+    leg1->AddEntry(N1MC22SUB2,Form("CMS (%d-%d%%)",cminREF,cmaxREF),"p");
     leg1->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("ATLAS 2PC PbPb #sqrt{s_{NN}}=2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
     leg1->AddEntry(ALICE_v1even_eta_c5_80,"ALICE ZDC PbPb  #sqrt{s_{NN}}=2.76 TeV (5-80%)","p");
     leg1->Draw();
 
     c->Print("../figures/fig7.pdf","pdf");
+    c->Print("../figures/fig7.png","png");
 
 }

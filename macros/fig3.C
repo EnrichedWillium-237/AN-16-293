@@ -1,6 +1,7 @@
 # include "TCanvas.h"
 # include "TDirectory.h"
 # include "TFile.h"
+# include "TGaxis.h"
 # include "TGraphErrors.h"
 # include "TH1.h"
 # include "TH2.h"
@@ -39,60 +40,63 @@ void fig3() {
 
     fin = new TFile("../data/data_fig3.root");
 
-    TCanvas * c = new TCanvas("c", "c", 650, 600);
+    TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd();
-    pad1->SetTopMargin(0.07);
+    pad1->SetTopMargin(0.08);
     h1 = new TH1D("h1", "", 100, -2.15, 2.15);
     h1->SetStats(0);
     h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{odd}");
+    h1->GetYaxis()->SetDecimals();
+    // TGaxis * gax1 = (TGaxis *) h1->GetYaxis();
+    // gax1->SetMaxDigits(3);
     h1->GetXaxis()->CenterTitle();
-    h1->GetYaxis()->SetRangeUser(-0.02, 0.02);
+    h1->GetYaxis()->CenterTitle();
+    h1->GetXaxis()->SetTitleOffset(1.15);
+    h1->GetYaxis()->SetTitleOffset(1.60);
+    h1->GetYaxis()->SetRangeUser(-0.015, 0.015);
     h1->Draw();
 
     N1HFcSUB2 = (TGraphErrors *) fin->Get("N1HFcSUB2/-2.0_2.0/20_60/gint");
     N1HFcSUB2->SetMarkerStyle(20);
-    N1HFcSUB2->SetMarkerSize(1.2);
+    N1HFcSUB2->SetMarkerSize(1.3);
     N1HFcSUB2->SetMarkerColor(kBlack);
     N1HFcSUB2->SetLineColor(kBlack);
     N1HFcSUB2->Draw("same p");
 
     N1HFdSUB2 = (TGraphErrors *) fin->Get("N1HFdSUB2/-2.0_2.0/20_60/gint");
     N1HFdSUB2->SetMarkerStyle(25);
-    N1HFdSUB2->SetMarkerSize(1.1);
+    N1HFdSUB2->SetMarkerSize(1.2);
     N1HFdSUB2->SetMarkerColor(kRed);
     N1HFdSUB2->SetLineColor(kRed);
     N1HFdSUB2->Draw("same p");
 
     N1HFeSUB2 = (TGraphErrors *) fin->Get("N1HFeSUB2/-2.0_2.0/20_60/gint");
     N1HFeSUB2->SetMarkerStyle(24);
-    N1HFeSUB2->SetMarkerSize(1.2);
+    N1HFeSUB2->SetMarkerSize(1.3);
     N1HFeSUB2->SetMarkerColor(kGreen+2);
     N1HFeSUB2->SetLineColor(kGreen+2);
     N1HFeSUB2->Draw("same p");
 
     N1HFfSUB2 = (TGraphErrors *) fin->Get("N1HFfSUB2/-2.0_2.0/20_60/gint");
     N1HFfSUB2->SetMarkerStyle(21);
-    N1HFfSUB2->SetMarkerSize(1.1);
+    N1HFfSUB2->SetMarkerSize(1.2);
     N1HFfSUB2->SetMarkerColor(kBlue);
     N1HFfSUB2->SetLineColor(kBlue);
     N1HFfSUB2->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
+    TPaveText * tx0 = new TPaveText(0.157, 0.932, 0.470, 0.977, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary}");
+    tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.65, 0.75, 0.93, 0.89, "NDC");
-    SetTPaveTxt(tx1, 18);
-    tx1->SetTextAlign(32);
-    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    tx1->AddText("0.3 < p_{T} < 3.0 GeV/c");
+    TPaveText * tx1 = new TPaveText(0.77, 0.83, 0.92, 0.87, "NDC");
+    SetTPaveTxt(tx1, 22);
     tx1->AddText("20 - 60%");
     tx1->Draw();
 
-    TLegend * leg1 = new TLegend(0.19, 0.19, 0.50, 0.39);
-    SetLegend(leg1, 18);
+    TLegend * leg1 = new TLegend(0.19, 0.19, 0.50, 0.41);
+    SetLegend(leg1, 22);
     leg1->AddEntry(N1HFcSUB2,"3.0 < |#eta_{EP}| < 3.5","p");
     leg1->AddEntry(N1HFdSUB2,"3.5 < |#eta_{EP}| < 4.0","p");
     leg1->AddEntry(N1HFeSUB2,"4.0 < |#eta_{EP}| < 4.5","p");
@@ -100,5 +104,6 @@ void fig3() {
     leg1->Draw();
 
     c->Print("../figures/fig3.pdf","pdf");
+    c->Print("../figures/fig3.png","png");
 
 }

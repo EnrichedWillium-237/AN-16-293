@@ -46,25 +46,25 @@ void fig1() {
 
     N1AHFfSUB3_10_15 = (TGraphErrors *) fin->Get("N1HFfSUB3/-2.0_0.0/10_15/g");
     N1AHFfSUB3_10_15->SetMarkerStyle(25);
-    N1AHFfSUB3_10_15->SetMarkerSize(1.1);
+    N1AHFfSUB3_10_15->SetMarkerSize(1.2);
     N1AHFfSUB3_10_15->SetMarkerColor(kBlue);
     N1AHFfSUB3_10_15->SetLineColor(kBlue);
 
     N1BHFfSUB3_10_15 = (TGraphErrors *) fin->Get("N1HFfSUB3/0.0_2.0/10_15/g");
     N1BHFfSUB3_10_15->SetMarkerStyle(21);
-    N1BHFfSUB3_10_15->SetMarkerSize(1.1);
+    N1BHFfSUB3_10_15->SetMarkerSize(1.2);
     N1BHFfSUB3_10_15->SetMarkerColor(kBlue);
     N1BHFfSUB3_10_15->SetLineColor(kBlue);
 
     N1AHFfSUB3_40_50 = (TGraphErrors *) fin->Get("N1HFfSUB3/-2.0_0.0/40_50/g");
     N1AHFfSUB3_40_50->SetMarkerStyle(24);
-    N1AHFfSUB3_40_50->SetMarkerSize(1.2);
+    N1AHFfSUB3_40_50->SetMarkerSize(1.3);
     N1AHFfSUB3_40_50->SetMarkerColor(kRed);
     N1AHFfSUB3_40_50->SetLineColor(kRed);
 
     N1BHFfSUB3_40_50 = (TGraphErrors *) fin->Get("N1HFfSUB3/0.0_2.0/40_50/g");
     N1BHFfSUB3_40_50->SetMarkerStyle(20);
-    N1BHFfSUB3_40_50->SetMarkerSize(1.2);
+    N1BHFfSUB3_40_50->SetMarkerSize(1.3);
     N1BHFfSUB3_40_50->SetMarkerColor(kRed);
     N1BHFfSUB3_40_50->SetLineColor(kRed);
 
@@ -91,7 +91,7 @@ void fig1() {
     }
     TGraphErrors * N1AHFfSUB3_10_15_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
     N1AHFfSUB3_10_15_ave->SetMarkerStyle(21);
-    N1AHFfSUB3_10_15_ave->SetMarkerSize(1.1);
+    N1AHFfSUB3_10_15_ave->SetMarkerSize(1.2);
     N1AHFfSUB3_10_15_ave->SetMarkerColor(kBlue);
     N1AHFfSUB3_10_15_ave->SetLineColor(kBlue);
 
@@ -112,9 +112,10 @@ void fig1() {
     }
     TGraphErrors * N1AHFfSUB3_40_50_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
     N1AHFfSUB3_40_50_ave->SetMarkerStyle(20);
-    N1AHFfSUB3_40_50_ave->SetMarkerSize(1.2);
+    N1AHFfSUB3_40_50_ave->SetMarkerSize(1.3);
     N1AHFfSUB3_40_50_ave->SetMarkerColor(kRed);
     N1AHFfSUB3_40_50_ave->SetLineColor(kRed);
+
 
 
     //-- systematics
@@ -195,14 +196,19 @@ void fig1() {
 
 
 
-    TCanvas * c = new TCanvas("c", "c", 650, 600);
+    TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd(1);
-    pad1->SetTopMargin(0.07);
+    pad1->SetTopMargin(0.08);
     h1 = new TH1D("h1", "", 100, 0, 8.5);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{odd}");
-    h1->GetYaxis()->SetRangeUser(-0.04, 0.03);
+    h1->GetYaxis()->SetDecimals();
+    h1->GetXaxis()->CenterTitle();
+    h1->GetYaxis()->CenterTitle();
+    h1->GetXaxis()->SetTitleOffset(1.15);
+    h1->GetYaxis()->SetTitleOffset(1.60);
+    h1->GetYaxis()->SetRangeUser(-0.04, 0.012);
     h1->Draw();
     // N1AHFfSUB3_10_15_syst->Draw("same 2");
     // N1BHFfSUB3_10_15_syst->Draw("same 2");
@@ -217,24 +223,18 @@ void fig1() {
     // N1BHFfSUB3_40_50->Draw("same p");
     N1AHFfSUB3_40_50_ave->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
+    TPaveText * tx0 = new TPaveText(0.157, 0.932, 0.470, 0.977, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary}");
+    tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  |#eta| < 2");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.20, 0.78, 0.47, 0.89, "NDC");
-    SetTPaveTxt(tx1, 20);
-    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    tx1->AddText("|#eta| < 2");
-    tx1->Draw();
-
-    TLegend * leg1 = new TLegend(0.71, 0.79, 0.87, 0.90);
-    SetLegend(leg1, 20);
-    // leg->SetNColumns(2);
+    TLegend * leg1 = new TLegend(0.20, 0.77, 0.36, 0.87);
+    SetLegend(leg1, 22);
     leg1->AddEntry(N1BHFfSUB3_10_15,"10-15%","p");
     leg1->AddEntry(N1BHFfSUB3_40_50,"40-50%","p");
     leg1->Draw();
 
     c->Print("../figures/fig1.pdf","pdf");
+    c->Print("../figures/fig1.png","png");
 
 }

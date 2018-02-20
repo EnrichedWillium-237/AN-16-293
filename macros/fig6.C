@@ -141,5 +141,6 @@ void fig6() {
     leg1->Draw();
 
     c->Print("../figures/fig6.pdf","pdf");
+    c->Print("../figures/fig6.png","png");
 
 }

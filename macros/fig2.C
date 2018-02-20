@@ -122,6 +122,8 @@ void fig2() {
     pad2->SetTopMargin(0.07);
     pad2->SetRightMargin(0.03);
     h2 = (TH1D *) h1->Clone("h2");
+    h2->GetYaxis()->SetTitleSize(0.0);
+    h2->GetYaxis()->SetLabelSize(0.0);
     h2->Draw();
     for (int i = 6; i<ncbins; i++) {
         N1HFfSUB2_syst[i]->Draw("same 2");
@@ -137,5 +139,6 @@ void fig2() {
     leg2->Draw();
 
     c->Print("../figures/fig2.pdf","pdf");
+    c->Print("../figures/fig2.png","png");
 
 }
