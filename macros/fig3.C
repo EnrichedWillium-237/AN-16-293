@@ -43,6 +43,7 @@ void fig3() {
     TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd();
     pad1->SetTopMargin(0.08);
+    pad1->SetLeftMargin(0.18);
     h1 = new TH1D("h1", "", 100, -2.15, 2.15);
     h1->SetStats(0);
     h1->SetXTitle("#eta");
@@ -53,7 +54,7 @@ void fig3() {
     h1->GetXaxis()->CenterTitle();
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
-    h1->GetYaxis()->SetTitleOffset(1.60);
+    h1->GetYaxis()->SetTitleOffset(1.65);
     h1->GetYaxis()->SetRangeUser(-0.015, 0.015);
     h1->Draw();
 
@@ -85,12 +86,12 @@ void fig3() {
     N1HFfSUB2->SetLineColor(kBlue);
     N1HFfSUB2->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.157, 0.932, 0.470, 0.977, "NDC");
+    TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.77, 0.83, 0.92, 0.87, "NDC");
+    TPaveText * tx1 = new TPaveText(0.73, 0.81, 0.88, 0.85, "NDC");
     SetTPaveTxt(tx1, 22);
     tx1->AddText("20 - 60%");
     tx1->Draw();

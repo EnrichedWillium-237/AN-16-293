@@ -69,7 +69,7 @@ void fig7() {
     ALICE_v1even_eta_c5_80 = (TH1D *) finALICE->Get("ALICE_v1even_pT_5_80");
     ALICE_v1even_eta_c5_80->SetMarkerColor(kMagenta);
     ALICE_v1even_eta_c5_80->SetLineColor(kMagenta);
-    ALICE_v1even_eta_c5_80->SetMarkerStyle(21);
+    ALICE_v1even_eta_c5_80->SetMarkerStyle(25);
     ALICE_v1even_eta_c5_80->SetMarkerSize(1.2);
 
     // Average negative and positive side v1even
@@ -112,14 +112,19 @@ void fig7() {
     //--
 
 
-    TCanvas * c = new TCanvas("c", "c", 650, 600);
-    TPad * pad1 = (TPad *) c->cd();
-    pad1->SetTopMargin(0.07);
+    TCanvas * c = new TCanvas("c", "c", 620, 600);
+    TPad * pad1 = (TPad *) c->cd(1);
+    pad1->SetTopMargin(0.08);
+    pad1->SetLeftMargin(0.18);
     h1 = new TH1D("h1", "", 100, 0, 8.5);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
-    h1->SetYTitle("v_{1}^{even}");
+    h1->SetYTitle("v_{1}^{odd}");
+    h1->GetYaxis()->SetDecimals();
     h1->GetXaxis()->CenterTitle();
+    h1->GetYaxis()->CenterTitle();
+    h1->GetXaxis()->SetTitleOffset(1.15);
+    h1->GetYaxis()->SetTitleOffset(1.65);
     h1->GetYaxis()->SetRangeUser(-0.04, 0.2);
     h1->Draw();
     ATLAS_v1even_2PC_PbPb_30_40->Draw("same E3");
@@ -129,25 +134,56 @@ void fig7() {
     N1MC22SUB2->Draw("same p");
     cout<<"here"<<endl;
 
-    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
+    TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary}, PbPb #sqrt{s_{NN}} = 5.02 TeV, 0.4 < |#eta| < 2.4");
+    tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.4 < |#eta| < 2.4");
     tx0->Draw();
 
-    // TPaveText * tx1 = new TPaveText(0.20, 0.85, 0.52, 0.91, "NDC");
-    // SetTPaveTxt(tx1, 18);
-    // tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    // tx1->AddText("|#eta| < 2.4");
-    // tx1->Draw();
-
-    TLegend * leg1 = new TLegend(0.20, 0.76, 0.42, 0.90);
-    SetLegend(leg1, 18);
+    TLegend * leg1 = new TLegend(0.22, 0.73, 0.44, 0.88);
+    SetLegend(leg1, 20);
     leg1->AddEntry(N1MC22SUB2,Form("CMS (%d-%d%%)",cminREF,cmaxREF),"p");
-    leg1->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("ATLAS 2PC PbPb #sqrt{s_{NN}}=2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
-    leg1->AddEntry(ALICE_v1even_eta_c5_80,"ALICE ZDC PbPb  #sqrt{s_{NN}}=2.76 TeV (5-80%)","p");
+    leg1->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("ATLAS 2PC fit, PbPb 2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
+    leg1->AddEntry(ALICE_v1even_eta_c5_80,"ALICE ZDC, PbPb 2.76 TeV (5-80%)","p");
     leg1->Draw();
 
     c->Print("../figures/fig7.pdf","pdf");
     c->Print("../figures/fig7.png","png");
+
+
+    // alternate version
+    TCanvas * c_v2 = new TCanvas("c1_v2", "c_v2", 620, 600);
+    TPad * pad1_v2 = (TPad *) c_v2->cd(1);
+    pad1_v2->SetTopMargin(0.08);
+    pad1_v2->SetLeftMargin(0.18);
+    TH1D * h1_v2 = (TH1D *) h1->Clone("h1_v2");
+    h1_v2->SetStats(0);
+    h1_v2->SetXTitle("p_{T} (GeV/c)");
+    h1_v2->SetYTitle("v_{1}^{odd}");
+    h1_v2->GetYaxis()->SetRangeUser(-0.04, 0.25);
+    h1_v2->Draw();
+    ATLAS_v1even_2PC_PbPb_30_40->Draw("same E3");
+    ATLAS_v1even_2PC_PbPb_30_40->Draw("same p");
+    ALICE_v1even_eta_c5_80->Draw("same p");
+    N1MC22SUB2_syst->Draw("same 2");
+    N1MC22SUB2->Draw("same p");
+    cout<<"here"<<endl;
+
+    tx0->Draw();
+
+    TLegend * leg1_v2 = new TLegend(0.22, 0.75, 0.44, 0.89);
+    SetLegend(leg1_v2, 18);
+    leg1_v2->SetHeader("Participant v_{1}^{even}");
+    leg1_v2->AddEntry(N1MC22SUB2,Form("CMS (%d-%d%%)",cminREF,cmaxREF),"p");
+    leg1_v2->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("ATLAS 2PC fit, PbPb 2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
+    leg1_v2->Draw();
+
+    TLegend * leg2_v2 = new TLegend(0.22, 0.65, 0.44, 0.75);
+    SetLegend(leg2_v2, 18);
+    leg2_v2->SetHeader("Spectator v_{1}^{even}");
+    leg2_v2->AddEntry(ALICE_v1even_eta_c5_80,"ALICE ZDC, PbPb 2.76 TeV (5-80%)","p");
+    leg2_v2->Draw();
+
+    c_v2->Print("../figures/fig7_v2.pdf","pdf");
+    c_v2->Print("../figures/fig7_v2.png","png");
 
 }

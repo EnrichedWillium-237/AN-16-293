@@ -199,6 +199,7 @@ void fig1() {
     TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd(1);
     pad1->SetTopMargin(0.08);
+    pad1->SetLeftMargin(0.18);
     h1 = new TH1D("h1", "", 100, 0, 8.5);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
@@ -207,7 +208,7 @@ void fig1() {
     h1->GetXaxis()->CenterTitle();
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
-    h1->GetYaxis()->SetTitleOffset(1.60);
+    h1->GetYaxis()->SetTitleOffset(1.65);
     h1->GetYaxis()->SetRangeUser(-0.04, 0.012);
     h1->Draw();
     // N1AHFfSUB3_10_15_syst->Draw("same 2");
@@ -223,7 +224,7 @@ void fig1() {
     // N1BHFfSUB3_40_50->Draw("same p");
     N1AHFfSUB3_40_50_ave->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.157, 0.932, 0.470, 0.977, "NDC");
+    TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  |#eta| < 2");
     tx0->Draw();

@@ -44,9 +44,9 @@ void fig4() {
 
     fin = new TFile("../data/data_fig4.root");
 
-    int col[6] = {kRed, kOrange+5, kBlue, kGreen+3, kCyan+2, kMagenta};
-    int mrkstyle[6] = {20, 25, 28, 21, 31, 29};
-    double mrksize[6] = {1.1, 1.0, 1.2, 1.0, 1.3, 1.4};
+    int col[] = {kRed, kOrange+5, kBlue, kGreen+2, kCyan+2, kMagenta, kBlack, kRed, kBlue, kGreen+2, kCyan+2};
+    int mrkstyle[] =   {20,  25,  21,  28,  33,  27,  24,  34, 27,  20,  31};
+    double mrksize[] = {1.3, 1.2, 1.2, 1.6, 1.8, 1.8, 1.2, 1.6, 1.8, 1.2, 1.4};
 
     // Average negative and positive side v1even
     for (int i = 0; i<ncbins; i++) {
@@ -67,17 +67,11 @@ void fig4() {
         N1MC22SUB2[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
     }
 
-    for (int i = 0; i<=5; i++) {
+    for (int i = 0; i<ncbins; i++) {
         N1MC22SUB2[i]->SetMarkerStyle(mrkstyle[i]);
         N1MC22SUB2[i]->SetMarkerSize(mrksize[i]);
         N1MC22SUB2[i]->SetMarkerColor(col[i]);
         N1MC22SUB2[i]->SetLineColor(col[i]);
-    }
-    for (int i = 6; i<ncbins; i++) {
-        N1MC22SUB2[i]->SetMarkerStyle(mrkstyle[i-6]);
-        N1MC22SUB2[i]->SetMarkerSize(mrksize[i-6]);
-        N1MC22SUB2[i]->SetMarkerColor(col[i-6]);
-        N1MC22SUB2[i]->SetLineColor(col[i-6]);
     }
 
 
@@ -105,11 +99,15 @@ void fig4() {
     c->Divide(2,1,0,0);
     TPad * pad1 = (TPad *) c->cd(1);
     pad1->SetTopMargin(0.07);
-    h1 = new TH1D("h1", "", 100, 0, 8.5);
+    h1 = new TH1D("h1", "", 100, 0.001, 8.5);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{even}");
+    h1->GetYaxis()->SetDecimals();
     h1->GetXaxis()->CenterTitle();
+    h1->GetYaxis()->CenterTitle();
+    h1->GetXaxis()->SetTitleOffset(1.15);
+    h1->GetYaxis()->SetTitleOffset(1.65);
     h1->GetYaxis()->SetRangeUser(-0.042, 0.30);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
@@ -124,14 +122,8 @@ void fig4() {
     tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.22, 0.80, 0.54, 0.90, "NDC");
-    SetTPaveTxt(tx1, 18);
-    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    tx1->AddText("0.4 < |#eta| < 2.4");
-    tx1->Draw();
-
-    TLegend * leg1 = new TLegend(0.63, 0.78, 0.97, 0.90);
-    SetLegend(leg1, 18);
+    TLegend * leg1 = new TLegend(0.24, 0.73, 0.63, 0.89);
+    SetLegend(leg1, 22);
     leg1->SetNColumns(2);
     for (int i = 0; i<=5; i++) {
         leg1->AddEntry(N1MC22SUB2[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
@@ -140,10 +132,14 @@ void fig4() {
 
     TPad * pad2 = (TPad *) c->cd(2);
     pad2->SetTopMargin(0.07);
-    pad2->SetRightMargin(0.03);
+    pad2->SetRightMargin(0.01);
     h2 = (TH1D *) h1->Clone("h2");
     h2->GetYaxis()->SetTitleSize(0.0);
     h2->GetYaxis()->SetLabelSize(0.0);
+    h2->GetXaxis()->SetTitleSize(0.07);
+    h2->GetXaxis()->SetTitleOffset(0.90);
+    h2->GetXaxis()->SetLabelSize(0.06);
+    h2->GetXaxis()->SetLabelOffset(0.00);
     h2->Draw();
     for (int i = 6; i<ncbins; i++) {
         N1MC22SUB2_syst[i]->Draw("same 2");
@@ -151,9 +147,15 @@ void fig4() {
     for (int i = 6; i<ncbins; i++) {
         N1MC22SUB2[i]->Draw("same p");
     }
-    TLegend * leg2 = new TLegend(0.04, 0.78, 0.43, 0.90);
-    SetLegend(leg2, 18);
+
+    TPaveText * tx1 = new TPaveText(0.001, 0.938, 0.219, 0.981, "NDC");
+    SetTPaveTxt(tx1, 20);
+    tx1->AddText("PbPb 5.02 TeV,  0.4 < |#eta| < 2.4");
+    tx1->Draw();
+
+    TLegend * leg2 = new TLegend(0.05, 0.73, 0.54, 0.89);
     leg2->SetNColumns(2);
+    SetLegend(leg2, 22);
     for (int i = 6; i<ncbins; i++) {
         leg2->AddEntry(N1MC22SUB2[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }

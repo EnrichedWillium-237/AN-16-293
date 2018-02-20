@@ -60,7 +60,7 @@ void fig6() {
     ALICE_v1odd_eta_c10_60 = (TH1D *) finALICE->Get("ALICE_v1odd_eta_c10_60");
     ALICE_v1odd_eta_c10_60->SetMarkerColor(kMagenta);
     ALICE_v1odd_eta_c10_60->SetLineColor(kMagenta);
-    ALICE_v1odd_eta_c10_60->SetMarkerStyle(21);
+    ALICE_v1odd_eta_c10_60->SetMarkerStyle(25);
     ALICE_v1odd_eta_c10_60->SetMarkerSize(1.2);
 
     // retrieve STAR results
@@ -68,20 +68,20 @@ void fig6() {
     STAR_v1_3PC_62GeV_eta = (TGraphErrors *) finSTAR->Get("STAR_v1odd_3PC_62GeV_eta_c_10_70");
     STAR_v1_3PC_62GeV_eta->SetMarkerColor(kRed);
     STAR_v1_3PC_62GeV_eta->SetLineColor(kRed);
-    STAR_v1_3PC_62GeV_eta->SetMarkerStyle(29);
-    STAR_v1_3PC_62GeV_eta->SetMarkerSize(1.5);
+    STAR_v1_3PC_62GeV_eta->SetMarkerStyle(20);
+    STAR_v1_3PC_62GeV_eta->SetMarkerSize(1.3);
 
     STAR_v1_mix_62GeV_eta = (TGraphErrors *) finSTAR->Get("STAR_v1odd_mix_62GeV_eta_c_10_70");
-    STAR_v1_mix_62GeV_eta->SetMarkerColor(kCyan+2);
-    STAR_v1_mix_62GeV_eta->SetLineColor(kCyan+2);
-    STAR_v1_mix_62GeV_eta->SetMarkerStyle(24);
-    STAR_v1_mix_62GeV_eta->SetMarkerSize(1.2);
+    STAR_v1_mix_62GeV_eta->SetMarkerColor(kTeal-7);
+    STAR_v1_mix_62GeV_eta->SetLineColor(kTeal-7);
+    STAR_v1_mix_62GeV_eta->SetMarkerStyle(33);
+    STAR_v1_mix_62GeV_eta->SetMarkerSize(1.9);
 
     STAR_v1_ZDC_62GeV_eta = (TGraphErrors *) finSTAR->Get("STAR_v1odd_ZDC_62GeV_eta_c_10_70");
-    STAR_v1_ZDC_62GeV_eta->SetMarkerColor(kBlue);
-    STAR_v1_ZDC_62GeV_eta->SetLineColor(kBlue);
-    STAR_v1_ZDC_62GeV_eta->SetMarkerStyle(25);
-    STAR_v1_ZDC_62GeV_eta->SetMarkerSize(1.1);
+    STAR_v1_ZDC_62GeV_eta->SetMarkerColor(kBlack);
+    STAR_v1_ZDC_62GeV_eta->SetLineColor(kBlack);
+    STAR_v1_ZDC_62GeV_eta->SetMarkerStyle(28);
+    STAR_v1_ZDC_62GeV_eta->SetMarkerSize(1.8);
 
 
     //-- systematics
@@ -102,15 +102,20 @@ void fig6() {
     //--
 
 
-    TCanvas * c = new TCanvas("c", "c", 650, 600);
+    TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd();
-    pad1->SetTopMargin(0.07);
+    pad1->SetTopMargin(0.08);
+    pad1->SetLeftMargin(0.18);
     h1 = new TH1D("h1", "", 100, -2.15, 2.15);
     h1->SetStats(0);
     h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{odd}");
+    h1->GetYaxis()->SetDecimals();
     h1->GetXaxis()->CenterTitle();
-    h1->GetYaxis()->SetRangeUser(-0.016, 0.016);
+    h1->GetYaxis()->CenterTitle();
+    h1->GetXaxis()->SetTitleOffset(1.15);
+    h1->GetYaxis()->SetTitleOffset(1.65);
+    h1->GetYaxis()->SetRangeUser(-0.015, 0.020);
     h1->Draw();
     N1HFfSUB2_syst->Draw("2");
     ALICE_v1odd_eta_c10_60->Draw("same");
@@ -119,26 +124,25 @@ void fig6() {
     STAR_v1_ZDC_62GeV_eta->Draw("same p");
     N1HFfSUB2->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.164, 0.933, 0.377, 0.973, "NDC");
+    TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary}");
+    tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.64, 0.78, 0.91, 0.89, "NDC");
-    SetTPaveTxt(tx1, 18);
-    tx1->SetTextAlign(32);
-    tx1->AddText("PbPb #sqrt{s_{NN}} = 5.02 TeV");
-    tx1->AddText("0.3 < p_{T} < 3.0 GeV/c");
-    tx1->Draw();
-
-    TLegend * leg1 = new TLegend(0.20, 0.18, 0.41, 0.38);
-    SetLegend(leg1, 16);
+    TLegend * leg1 = new TLegend(0.38, 0.70, 0.59, 0.88);
+    SetLegend(leg1, 19);
     leg1->AddEntry(N1HFfSUB2,"CMS (10-60%)","p");
-    leg1->AddEntry(ALICE_v1odd_eta_c10_60,"ALICE ZDC PbPb #sqrt{s_{NN}} = 2.76 TeV (10-60%)","p");
-    leg1->AddEntry(STAR_v1_3PC_62GeV_eta,"STAR 3PC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
-    leg1->AddEntry(STAR_v1_mix_62GeV_eta,"STAR Mix AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
-    leg1->AddEntry(STAR_v1_ZDC_62GeV_eta,"STAR ZDC AuAu #sqrt{s_{NN}} = 62.4 GeV (10-70%)","p");
+    leg1->SetHeader("Participant v_{1}^{odd}");
+    leg1->AddEntry(STAR_v1_3PC_62GeV_eta,"STAR 3PC, AuAu 62.4 GeV, (10-70%)","p");
+    leg1->AddEntry(STAR_v1_mix_62GeV_eta,"STAR Mix, AuAu 62.4 GeV, (10-70%)","p");
     leg1->Draw();
+
+    TLegend * leg2 = new TLegend(0.20, 0.18, 0.40, 0.32);
+    SetLegend(leg2, 19);
+    leg2->SetHeader("Spectator v_{1}^{odd}");
+    leg2->AddEntry(ALICE_v1odd_eta_c10_60,"ALICE ZDC, PbPb 2.76 TeV (10-60%)","p");
+    leg2->AddEntry(STAR_v1_ZDC_62GeV_eta,"STAR ZDC, AuAu 62.4 GeV (10-70%)","p");
+    leg2->Draw();
 
     c->Print("../figures/fig6.pdf","pdf");
     c->Print("../figures/fig6.png","png");
