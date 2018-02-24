@@ -40,32 +40,38 @@ TGraphErrors * N1MCm22SUB3[ncbins];
 TGraphErrors * N1EVENSUB3[ncbins];
 TGraphErrors * N1EVENSUB3_syst[ncbins];
 
-void fig4() {
+void fig5A() {
 
-    fin = new TFile("../data/data_fig4A.root");
+    fin = new TFile("../data/data_fig5A.root");
 
     int col[] = {kRed, kOrange+5, kBlue, kGreen+2, kCyan+2, kMagenta, kBlack, kRed, kBlue, kGreen+2, kCyan+2};
     int mrkstyle[] =   {20,  25,  21,  28,  33,  27,  24,  34, 27,  20,  31};
     double mrksize[] = {1.3, 1.2, 1.2, 1.6, 1.8, 1.8, 1.2, 1.6, 1.8, 1.2, 1.4};
 
-    // Average negative and positive side v1even
     for (int i = 0; i<ncbins; i++) {
-        N1EVENSUB3[i] = (TGraphErrors *) fin->Get(Form("N1EVENSUB3/-2.4_2.4/%d_%d/gA",cmin[i],cmax[i]));
-    //     N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.4_-0.4/%d_%d/gA",cmin[i],cmax[i]));
-    //     N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.4_2.4/%d_%d/gA",cmin[i],cmax[i]));
-    //     Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
-    //     int num = N1MCp22SUB3[i]->GetN();
-    //     for (int j = 0; j<num; j++) {
-    //         N1MCp22SUB3[i]->GetPoint(j, xp[j], yp[j]);
-    //         yperr[j] = N1MCp22SUB3[i]->GetErrorY(j);
-    //
-    //         N1MCm22SUB3[i]->GetPoint(j, xm[j], ym[j]);
-    //         ymerr[j] = N1MCm22SUB3[i]->GetErrorY(j);
-    //
-    //         ypm[j] = 0.5*(yp[j] + ym[j]);
-    //         ypmerr[j] = 0.5*sqrt( yperr[j]*yperr[j] + ymerr[j]*ymerr[j] );
-    //     }
-    //     N1EVENSUB3[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
+        // N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.4_-0.4/%d_%d/gintA",cmin[i],cmax[i]));
+        // N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.4_2.4/%d_%d/gintA",cmin[i],cmax[i]));
+        N1EVENSUB3[i] = (TGraphErrors *) fin->Get(Form("N1EVENSUB3/-2.4_2.4/%d_%d/gint",cmin[i],cmax[i]));
+        // N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.0_0.0/%d_%d/gintA",cmin[i],cmax[i]));
+        // N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.0_2.0/%d_%d/gintA",cmin[i],cmax[i]));
+        // Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
+        // int num = N1MCp22SUB3[i]->GetN();
+        // for (int j = 0; j<num; j++) {
+        //     N1MCp22SUB3[i]->GetPoint(j, xp[j], yp[j]);
+        //     yperr[j] = N1MCp22SUB3[i]->GetErrorY(j);
+        //
+        //     N1MCm22SUB3[i]->GetPoint(j, xm[j], ym[j]);
+        //     ymerr[j] = N1MCm22SUB3[i]->GetErrorY(j);
+        //
+        //     if (xp[j]<0.0) {
+        //         ypm[j] = yp[j];
+        //         ypmerr[j] = yperr[j];
+        //     } else {
+        //         ypm[j] = ym[j];
+        //         ypmerr[j] = ymerr[j];
+        //     }
+        // }
+        // N1EVENSUB3[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
     }
 
     for (int i = 0; i<ncbins; i++) {
@@ -90,6 +96,7 @@ void fig4() {
             hsyst->Delete();
         }
         N1EVENSUB3_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
+        N1EVENSUB3_syst[i]->SetLineWidth(2);
         N1EVENSUB3_syst[i]->SetLineColor(kBlue-10);
         N1EVENSUB3_syst[i]->SetFillColor(kBlue-10);
     }
@@ -100,33 +107,39 @@ void fig4() {
     c->Divide(2,1,0,0);
     TPad * pad1 = (TPad *) c->cd(1);
     pad1->SetTopMargin(0.07);
-    h1 = new TH1D("h1", "", 100, 0.001, 8.5);
+    h1 = new TH1D("h1", "", 100, -2.8, 2.8);
     h1->SetStats(0);
-    h1->SetXTitle("p_{T} (GeV/c)");
+    h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{even}");
     h1->GetYaxis()->SetDecimals();
     h1->GetXaxis()->CenterTitle();
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
     h1->GetYaxis()->SetTitleOffset(1.65);
-    h1->GetYaxis()->SetRangeUser(-0.042, 0.32);
+    h1->GetYaxis()->SetRangeUser(-0.016, 0.036);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
-        N1EVENSUB3_syst[i]->Draw("same 2");
+        N1EVENSUB3_syst[i]->Draw("[]2");
     }
     for (int i = 0; i<=5; i++) {
-        N1EVENSUB3[i]->Draw("same p");
+        N1EVENSUB3[i]->Draw("p");
     }
+    TBox * box0 = new TBox(-0.4, -0.013, 0.4, 0.02);
+    box0->SetFillColor(kWhite);
+    box0->SetFillStyle(1001);
+    // box0->Draw("same");
+    TLine * ln0 = new TLine(-2.8, 0.0, 2.8, 0.0);
+    ln0->Draw();
 
     TPaveText * tx0 = new TPaveText(0.184, 0.947, 0.399, 0.986, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{odd}{#eta_{C} = 0}");
+    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{even}{#eta_{C} = #eta_{ROI}}");
     tx0->Draw();
 
-    TLegend * leg1 = new TLegend(0.24, 0.73, 0.63, 0.89);
+    TLegend * leg1 = new TLegend(0.36, 0.58, 0.88, 0.88);
     SetLegend(leg1, 22);
     leg1->SetNColumns(2);
-    for (int i = 0; i<=5; i++) {
+    for (int i = 0; i<ncbins; i++) {
         leg1->AddEntry(N1EVENSUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }
     leg1->Draw();
@@ -143,26 +156,24 @@ void fig4() {
     h2->GetXaxis()->SetLabelOffset(0.00);
     h2->Draw();
     for (int i = 6; i<ncbins; i++) {
-        N1EVENSUB3_syst[i]->Draw("same 2");
+        N1EVENSUB3_syst[i]->Draw("[]2");
     }
     for (int i = 6; i<ncbins; i++) {
-        N1EVENSUB3[i]->Draw("same p");
+        N1EVENSUB3[i]->Draw("p");
     }
+    TBox * box1 = new TBox(-0.4, -0.013, 0.4, 0.02);
+    box1->SetFillColor(kWhite);
+    box1->SetFillStyle(1001);
+    //box1->Draw("same");
+    TLine * ln1 = new TLine(-2.8, 0.0, 2.8, 0.0);
+    ln1->Draw();
 
     TPaveText * tx1 = new TPaveText(0.001, 0.938, 0.219, 0.981, "NDC");
     SetTPaveTxt(tx1, 20);
-    tx1->AddText("PbPb 5.02 TeV,  0.4 < |#eta| < 2.4");
+    tx1->AddText("PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx1->Draw();
 
-    TLegend * leg2 = new TLegend(0.05, 0.73, 0.54, 0.89);
-    leg2->SetNColumns(2);
-    SetLegend(leg2, 22);
-    for (int i = 6; i<ncbins; i++) {
-        leg2->AddEntry(N1EVENSUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
-    }
-    leg2->Draw();
-
-    c->Print("../figures/fig4.pdf","pdf");
-    c->Print("../figures/fig4.png","png");
+    c->Print("../figures/fig5A.pdf","pdf");
+    c->Print("../figures/fig5A.png","png");
 
 }

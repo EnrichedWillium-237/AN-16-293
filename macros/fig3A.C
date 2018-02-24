@@ -36,9 +36,9 @@ TGraphErrors * N1HFdSUB3;
 TGraphErrors * N1HFeSUB3;
 TGraphErrors * N1HFfSUB3;
 
-void fig3() {
+void fig3A() {
 
-    fin = new TFile("../data/data_fig3.root");
+    fin = new TFile("../data/data_fig3A.root");
 
     TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd();
@@ -98,14 +98,14 @@ void fig3() {
 
     TLegend * leg1 = new TLegend(0.19, 0.19, 0.50, 0.41);
     SetLegend(leg1, 22);
-    leg1->SetHeader("{#eta_{C} = #eta_{0}}");
+    leg1->SetHeader("{#eta_{C} = #eta_{ROI}}");
     leg1->AddEntry(N1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
     leg1->AddEntry(N1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
     leg1->AddEntry(N1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");
     leg1->AddEntry(N1HFfSUB3,"4.5 < |#eta_{EP}| < 5.0","p");
     leg1->Draw();
 
-    c->Print("../figures/fig3.pdf","pdf");
-    c->Print("../figures/fig3.png","png");
+    c->Print("../figures/fig3A.pdf","pdf");
+    c->Print("../figures/fig3A.png","png");
 
 }

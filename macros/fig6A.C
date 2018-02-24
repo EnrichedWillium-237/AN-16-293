@@ -35,25 +35,44 @@ TFile * finCMS;
 TFile * finALICE;
 TFile * finSTAR;
 TFile * finSyst;
+TFile * finAMPT;
+TFile * finAMPTa;
 
 TH1D * h1;
-TGraphErrors * N1HFfSUB2;
-TGraphErrors * N1HFfSUB2_syst;
+TGraphErrors * N1HFfSUB3;
+TGraphErrors * N1HFfSUB3_syst;
 TH1D * ALICE_v1odd_eta_c10_60;
 TGraphErrors * STAR_v1_3PC_62GeV_eta;
 TGraphErrors * STAR_v1_mix_62GeV_eta;
 TGraphErrors * STAR_v1_ZDC_62GeV_eta;
+TGraphErrors * AMPT_decor;
+TGraphErrors * AMPT_nodecor;
 
 
-void fig6() {
+void fig6A() {
 
     // retrieve CMS results
-    finCMS = new TFile("../data/data_fig6.root","read");
-    N1HFfSUB2 = (TGraphErrors *) finCMS->Get("N1HFfSUB2/-2.0_2.0/10_60/gint");
-    N1HFfSUB2->SetMarkerStyle(21);
-    N1HFfSUB2->SetMarkerSize(1.2);
-    N1HFfSUB2->SetMarkerColor(kBlue);
-    N1HFfSUB2->SetLineColor(kBlue);
+    finCMS = new TFile("../data/data_fig6A.root","read");
+    N1HFfSUB3 = (TGraphErrors *) finCMS->Get("N1HFfSUB3/-2.0_2.0/10_60/gint");
+    N1HFfSUB3->SetMarkerStyle(21);
+    N1HFfSUB3->SetMarkerSize(1.2);
+    N1HFfSUB3->SetMarkerColor(kBlue);
+    N1HFfSUB3->SetLineColor(kBlue);
+
+    // retrieve AMPT results
+    finAMPT = new TFile("../data/data_fig3B.root","read");
+    AMPT_nodecor = (TGraphErrors *) finAMPT->Get("N1HFfSUB3/-2.0_2.0/20_60/gint");
+    AMPT_nodecor->SetMarkerStyle(34);
+    AMPT_nodecor->SetMarkerSize(1.6);
+    AMPT_nodecor->SetMarkerColor(kGreen+2);
+    AMPT_nodecor->SetLineColor(kGreen+2);
+
+    finAMPT = new TFile("../data/data_fig3C.root","read");
+    AMPT_decor = (TGraphErrors *) finAMPT->Get("N1HFfSUB3/-2.0_2.0/20_60/gint");
+    AMPT_decor->SetMarkerStyle(20);
+    AMPT_decor->SetMarkerSize(1.3);
+    AMPT_decor->SetMarkerColor(kOrange+7);
+    AMPT_decor->SetLineColor(kOrange+7);
 
     // retrieve ALICE results
     finALICE = new TFile("../data/PRL_111_232302.root","read");
@@ -88,17 +107,17 @@ void fig6() {
     finSyst = new TFile("../data/data_systematics.root","read");
 
     Double_t x[50], y[50], xerr[50], ysyst[50];
-    int num = N1HFfSUB2->GetN();
+    int num = N1HFfSUB3->GetN();
     for (int j = 0; j<num; j++) {
-        N1HFfSUB2->GetPoint(j, x[j], y[j]);
+        N1HFfSUB3->GetPoint(j, x[j], y[j]);
         xerr[j] = 0.1;
         TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_20_60"); // no significant difference between 10-60% and 20-60%
         ysyst[j] = y[j] * hsyst->GetBinContent(1);
         hsyst->Delete();
     }
-    N1HFfSUB2_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1HFfSUB2_syst->SetLineColor(kBlue-10);
-    N1HFfSUB2_syst->SetFillColor(kBlue-10);
+    N1HFfSUB3_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1HFfSUB3_syst->SetLineColor(kBlue-10);
+    N1HFfSUB3_syst->SetFillColor(kBlue-10);
     //--
 
 
@@ -115,36 +134,37 @@ void fig6() {
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
     h1->GetYaxis()->SetTitleOffset(1.65);
-    h1->GetYaxis()->SetRangeUser(-0.015, 0.020);
+    h1->GetYaxis()->SetRangeUser(-0.006, 0.006);
     h1->Draw();
-    N1HFfSUB2_syst->Draw("2");
+    N1HFfSUB3_syst->Draw("2");
     ALICE_v1odd_eta_c10_60->Draw("same");
-    STAR_v1_3PC_62GeV_eta->Draw("same p");
-    STAR_v1_mix_62GeV_eta->Draw("same p");
-    STAR_v1_ZDC_62GeV_eta->Draw("same p");
-    N1HFfSUB2->Draw("same p");
+    // STAR_v1_3PC_62GeV_eta->Draw("same p");
+    // STAR_v1_mix_62GeV_eta->Draw("same p");
+    // STAR_v1_ZDC_62GeV_eta->Draw("same p");
+    // AMPT_nodecor->Draw("same p");
+    AMPT_decor->Draw("same p");
+    N1HFfSUB3->Draw("same p");
 
     TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx0->Draw();
 
-    TLegend * leg1 = new TLegend(0.38, 0.70, 0.59, 0.88);
-    SetLegend(leg1, 19);
-    leg1->SetHeader("Participant v_{1}^{odd}");
-    leg1->AddEntry(N1HFfSUB2,"CMS (10-60%) {#eta_{C} = 0}","p");
-    leg1->AddEntry(STAR_v1_3PC_62GeV_eta,"STAR 3PC, AuAu 62.4 GeV, (10-70%)","p");
-    leg1->AddEntry(STAR_v1_mix_62GeV_eta,"STAR Mix, AuAu 62.4 GeV, (10-70%)","p");
+    TLegend * leg1 = new TLegend(0.56, 0.69, 0.75, 0.88);
+    SetLegend(leg1, 20);
+    leg1->SetHeader("Participant v_{1}^{odd} (10 - 60%)");
+    leg1->AddEntry(N1HFfSUB3,"CMS {#eta_{C} = #eta_{ROI}}","p");
+    // leg1->AddEntry(AMPT_nodecor,"AMPT {#eta_{C} = 0","p");
+    leg1->AddEntry(AMPT_decor,"AMPT {#eta_{C} = #eta_{ROI}}","p");
     leg1->Draw();
 
-    TLegend * leg2 = new TLegend(0.20, 0.18, 0.40, 0.32);
-    SetLegend(leg2, 19);
+    TLegend * leg2 = new TLegend(0.23, 0.20, 0.43, 0.31);
+    SetLegend(leg2, 20);
     leg2->SetHeader("Spectator v_{1}^{odd}");
-    leg2->AddEntry(ALICE_v1odd_eta_c10_60,"ALICE ZDC, PbPb 2.76 TeV (10-60%)","p");
-    leg2->AddEntry(STAR_v1_ZDC_62GeV_eta,"STAR ZDC, AuAu 62.4 GeV (10-70%)","p");
+    leg2->AddEntry(ALICE_v1odd_eta_c10_60,"ALICE ZDC, PbPb 2.76 TeV","p");
     leg2->Draw();
 
-    c->Print("../figures/fig6.pdf","pdf");
-    c->Print("../figures/fig6.png","png");
+    c->Print("../figures/fig6A.pdf","pdf");
+    c->Print("../figures/fig6A.png","png");
 
 }

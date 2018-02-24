@@ -38,9 +38,9 @@ TH1D * h2;
 TGraphErrors * N1HFfSUB3[ncbins];
 TGraphErrors * N1HFfSUB3_syst[ncbins];
 
-void fig2() {
+void fig2A() {
 
-    fin = new TFile("../data/data_fig2.root");
+    fin = new TFile("../data/data_fig2A.root");
 
     int col[] = {kRed, kOrange+5, kBlue, kGreen+2, kCyan+2, kMagenta, kBlack, kRed, kBlue, kGreen+2, kCyan+2};
     int mrkstyle[] =   {20,  25,  21,  28,  33,  27,  24,  34, 27,  20,  31};
@@ -88,7 +88,7 @@ void fig2() {
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
     h1->GetYaxis()->SetTitleOffset(1.80);
-    h1->GetYaxis()->SetRangeUser(-0.025, 0.025);
+    h1->GetYaxis()->SetRangeUser(-0.008, 0.008);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
         N1HFfSUB3_syst[i]->Draw("same 2");
@@ -99,7 +99,7 @@ void fig2() {
 
     TPaveText * tx0 = new TPaveText(0.188, 0.938, 0.431, 0.984, "NDC");
     SetTPaveTxt(tx0, 22);
-    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{odd}{#eta_{C} = 0}");
+    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{odd}{#eta_{C} = #eta_{ROI}}");
     tx0->Draw();
 
     TLegend * leg1 = new TLegend(0.25, 0.22, 0.73, 0.38);
@@ -141,7 +141,7 @@ void fig2() {
     }
     leg2->Draw();
 
-    c->Print("../figures/fig2.pdf","pdf");
-    c->Print("../figures/fig2.png","png");
+    c->Print("../figures/fig2A.pdf","pdf");
+    c->Print("../figures/fig2A.png","png");
 
 }

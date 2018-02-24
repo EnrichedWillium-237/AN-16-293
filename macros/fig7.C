@@ -119,7 +119,7 @@ void fig7() {
     h1 = new TH1D("h1", "", 100, 0, 8.5);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
-    h1->SetYTitle("v_{1}^{odd}");
+    h1->SetYTitle("v_{1}^{even}");
     h1->GetYaxis()->SetDecimals();
     h1->GetXaxis()->CenterTitle();
     h1->GetYaxis()->CenterTitle();
@@ -158,7 +158,7 @@ void fig7() {
     TH1D * h1_v2 = (TH1D *) h1->Clone("h1_v2");
     h1_v2->SetStats(0);
     h1_v2->SetXTitle("p_{T} (GeV/c)");
-    h1_v2->SetYTitle("v_{1}^{odd}");
+    h1_v2->SetYTitle("v_{1}^{even}");
     h1_v2->GetYaxis()->SetRangeUser(-0.04, 0.25);
     h1_v2->Draw();
     ATLAS_v1even_2PC_PbPb_30_40->Draw("same E3");
@@ -173,7 +173,7 @@ void fig7() {
     TLegend * leg1_v2 = new TLegend(0.22, 0.75, 0.44, 0.89);
     SetLegend(leg1_v2, 18);
     leg1_v2->SetHeader("Participant v_{1}^{even}");
-    leg1_v2->AddEntry(N1MC22SUB2,Form("CMS (%d-%d%%)",cminREF,cmaxREF),"p");
+    leg1_v2->AddEntry(N1MC22SUB2,Form("CMS (%d-%d%%) {#eta_{C} = 0}",cminREF,cmaxREF),"p");
     leg1_v2->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("ATLAS 2PC fit, PbPb 2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
     leg1_v2->Draw();
 

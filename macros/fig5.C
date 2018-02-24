@@ -35,10 +35,10 @@ TFile * fin;
 TFile * finSyst;
 TH1D * h1;
 TH1D * h2;
-TGraphErrors * N1MCp22SUB2[ncbins];
-TGraphErrors * N1MCm22SUB2[ncbins];
-TGraphErrors * N1MC22SUB2[ncbins];
-TGraphErrors * N1MC22SUB2_syst[ncbins];
+TGraphErrors * N1MCp22SUB3[ncbins];
+TGraphErrors * N1MCm22SUB3[ncbins];
+TGraphErrors * N1EVENSUB3[ncbins];
+TGraphErrors * N1EVENSUB3_syst[ncbins];
 
 void fig5() {
 
@@ -48,35 +48,37 @@ void fig5() {
     int mrkstyle[] =   {20,  25,  21,  28,  33,  27,  24,  34, 27,  20,  31};
     double mrksize[] = {1.3, 1.2, 1.2, 1.6, 1.8, 1.8, 1.2, 1.6, 1.8, 1.2, 1.4};
 
-    // Average negative and positive side v1even
     for (int i = 0; i<ncbins; i++) {
-        N1MCp22SUB2[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB2/-2.4_-0.4/%d_%d/gintA",cmin[i],cmax[i]));
-        N1MCm22SUB2[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB2/0.4_2.4/%d_%d/gintA",cmin[i],cmax[i]));
-        Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
-        int num = N1MCp22SUB2[i]->GetN();
-        for (int j = 0; j<num; j++) {
-            N1MCp22SUB2[i]->GetPoint(j, xp[j], yp[j]);
-            yperr[j] = N1MCp22SUB2[i]->GetErrorY(j);
-
-            N1MCm22SUB2[i]->GetPoint(j, xm[j], ym[j]);
-            ymerr[j] = N1MCm22SUB2[i]->GetErrorY(j);
-
-            if (xp[j]<0.0) {
-                ypm[j] = yp[j];
-                ypmerr[j] = yperr[j];
-            } else {
-                ypm[j] = ym[j];
-                ypmerr[j] = ymerr[j];
-            }
-        }
-        N1MC22SUB2[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
+        // N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.4_-0.4/%d_%d/gintA",cmin[i],cmax[i]));
+        // N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.4_2.4/%d_%d/gintA",cmin[i],cmax[i]));
+        N1EVENSUB3[i] = (TGraphErrors *) fin->Get(Form("N1EVENSUB3/-2.4_2.4/%d_%d/gint",cmin[i],cmax[i]));
+        // N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.0_0.0/%d_%d/gintA",cmin[i],cmax[i]));
+        // N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.0_2.0/%d_%d/gintA",cmin[i],cmax[i]));
+        // Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
+        // int num = N1MCp22SUB3[i]->GetN();
+        // for (int j = 0; j<num; j++) {
+        //     N1MCp22SUB3[i]->GetPoint(j, xp[j], yp[j]);
+        //     yperr[j] = N1MCp22SUB3[i]->GetErrorY(j);
+        //
+        //     N1MCm22SUB3[i]->GetPoint(j, xm[j], ym[j]);
+        //     ymerr[j] = N1MCm22SUB3[i]->GetErrorY(j);
+        //
+        //     if (xp[j]<0.0) {
+        //         ypm[j] = yp[j];
+        //         ypmerr[j] = yperr[j];
+        //     } else {
+        //         ypm[j] = ym[j];
+        //         ypmerr[j] = ymerr[j];
+        //     }
+        // }
+        // N1EVENSUB3[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
     }
 
     for (int i = 0; i<ncbins; i++) {
-        N1MC22SUB2[i]->SetMarkerStyle(mrkstyle[i]);
-        N1MC22SUB2[i]->SetMarkerSize(mrksize[i]);
-        N1MC22SUB2[i]->SetMarkerColor(col[i]);
-        N1MC22SUB2[i]->SetLineColor(col[i]);
+        N1EVENSUB3[i]->SetMarkerStyle(mrkstyle[i]);
+        N1EVENSUB3[i]->SetMarkerSize(mrksize[i]);
+        N1EVENSUB3[i]->SetMarkerColor(col[i]);
+        N1EVENSUB3[i]->SetLineColor(col[i]);
     }
 
 
@@ -85,18 +87,18 @@ void fig5() {
 
     for (int i = 0; i<ncbins; i++) {
         Double_t x[50], y[50], xerr[50], ysyst[50];
-        int num = N1MC22SUB2[i]->GetN();
+        int num = N1EVENSUB3[i]->GetN();
         for (int j = 0; j<num; j++) {
-            N1MC22SUB2[i]->GetPoint(j, x[j], y[j]);
+            N1EVENSUB3[i]->GetPoint(j, x[j], y[j]);
             xerr[j] = 0.1;
             TH1D * hsyst = (TH1D *) finSyst->Get(Form("even_errors/even_%d_%d",cmin[i],cmax[i]));
             ysyst[j] = y[j] * hsyst->GetBinContent(1);
             hsyst->Delete();
         }
-        N1MC22SUB2_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
-        N1MC22SUB2_syst[i]->SetLineWidth(2);
-        N1MC22SUB2_syst[i]->SetLineColor(kBlue-10);
-        N1MC22SUB2_syst[i]->SetFillColor(kBlue-10);
+        N1EVENSUB3_syst[i] = new TGraphErrors(num, x, y, xerr, ysyst);
+        N1EVENSUB3_syst[i]->SetLineWidth(2);
+        N1EVENSUB3_syst[i]->SetLineColor(kBlue-10);
+        N1EVENSUB3_syst[i]->SetFillColor(kBlue-10);
     }
     //--
 
@@ -114,31 +116,31 @@ void fig5() {
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
     h1->GetYaxis()->SetTitleOffset(1.65);
-    h1->GetYaxis()->SetRangeUser(-0.016, 0.024);
+    h1->GetYaxis()->SetRangeUser(-0.016, 0.036);
     h1->Draw();
     for (int i = 0; i<=5; i++) {
-        N1MC22SUB2_syst[i]->Draw("[]2");
+        N1EVENSUB3_syst[i]->Draw("[]2");
     }
     for (int i = 0; i<=5; i++) {
-        N1MC22SUB2[i]->Draw("p");
+        N1EVENSUB3[i]->Draw("p");
     }
     TBox * box0 = new TBox(-0.4, -0.013, 0.4, 0.02);
     box0->SetFillColor(kWhite);
     box0->SetFillStyle(1001);
-    box0->Draw("same");
+    //box0->Draw("same");
     TLine * ln0 = new TLine(-2.8, 0.0, 2.8, 0.0);
     ln0->Draw();
 
     TPaveText * tx0 = new TPaveText(0.184, 0.947, 0.399, 0.986, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary}");
+    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{even}{#eta_{C} = 0}");
     tx0->Draw();
 
     TLegend * leg1 = new TLegend(0.36, 0.58, 0.88, 0.88);
     SetLegend(leg1, 22);
     leg1->SetNColumns(2);
     for (int i = 0; i<ncbins; i++) {
-        leg1->AddEntry(N1MC22SUB2[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
+        leg1->AddEntry(N1EVENSUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }
     leg1->Draw();
 
@@ -154,15 +156,15 @@ void fig5() {
     h2->GetXaxis()->SetLabelOffset(0.00);
     h2->Draw();
     for (int i = 6; i<ncbins; i++) {
-        N1MC22SUB2_syst[i]->Draw("[]2");
+        N1EVENSUB3_syst[i]->Draw("[]2");
     }
     for (int i = 6; i<ncbins; i++) {
-        N1MC22SUB2[i]->Draw("p");
+        N1EVENSUB3[i]->Draw("p");
     }
     TBox * box1 = new TBox(-0.4, -0.013, 0.4, 0.02);
     box1->SetFillColor(kWhite);
     box1->SetFillStyle(1001);
-    box1->Draw("same");
+    //box1->Draw("same");
     TLine * ln1 = new TLine(-2.8, 0.0, 2.8, 0.0);
     ln1->Draw();
 

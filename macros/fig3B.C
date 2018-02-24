@@ -36,9 +36,9 @@ TGraphErrors * N1HFdSUB3;
 TGraphErrors * N1HFeSUB3;
 TGraphErrors * N1HFfSUB3;
 
-void fig3() {
+void fig3B() {
 
-    fin = new TFile("../data/data_fig3.root");
+    fin = new TFile("../data/data_fig3B.root");
 
     TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd();
@@ -55,7 +55,7 @@ void fig3() {
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
     h1->GetYaxis()->SetTitleOffset(1.65);
-    h1->GetYaxis()->SetRangeUser(-0.015, 0.015);
+    h1->GetYaxis()->SetRangeUser(-0.02, 0.02);
     h1->Draw();
 
     N1HFcSUB3 = (TGraphErrors *) fin->Get("N1HFcSUB3/-2.0_2.0/20_60/gint");
@@ -88,24 +88,24 @@ void fig3() {
 
     TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
+    // tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
+    tx0->AddText("AMPT PbPb, 5.02 TeV, 0.3 < p_{T} < 3.0 GeV/c, {#eta_{C} = 0}");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.73, 0.81, 0.88, 0.85, "NDC");
+    TPaveText * tx1 = new TPaveText(0.72, 0.83, 0.86, 0.87, "NDC");
     SetTPaveTxt(tx1, 22);
     tx1->AddText("20 - 60%");
     tx1->Draw();
 
-    TLegend * leg1 = new TLegend(0.19, 0.19, 0.50, 0.41);
+    TLegend * leg1 = new TLegend(0.20, 0.69, 0.51, 0.89);
     SetLegend(leg1, 22);
-    leg1->SetHeader("{#eta_{C} = #eta_{0}}");
     leg1->AddEntry(N1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
     leg1->AddEntry(N1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
     leg1->AddEntry(N1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");
     leg1->AddEntry(N1HFfSUB3,"4.5 < |#eta_{EP}| < 5.0","p");
     leg1->Draw();
 
-    c->Print("../figures/fig3.pdf","pdf");
-    c->Print("../figures/fig3.png","png");
+    c->Print("../figures/fig3B.pdf","pdf");
+    c->Print("../figures/fig3B.png","png");
 
 }
