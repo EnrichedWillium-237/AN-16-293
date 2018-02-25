@@ -59,7 +59,7 @@ void fig3B() {
     h1->Draw();
 
     N1HFcSUB3 = (TGraphErrors *) fin->Get("N1HFcSUB3/-2.0_2.0/20_60/gint");
-    N1HFcSUB3->SetMarkerStyle(20);
+    N1HFcSUB3->SetMarkerStyle(24);
     N1HFcSUB3->SetMarkerSize(1.3);
     N1HFcSUB3->SetMarkerColor(kBlack);
     N1HFcSUB3->SetLineColor(kBlack);
@@ -80,7 +80,7 @@ void fig3B() {
     N1HFeSUB3->Draw("same p");
 
     N1HFfSUB3 = (TGraphErrors *) fin->Get("N1HFfSUB3/-2.0_2.0/20_60/gint");
-    N1HFfSUB3->SetMarkerStyle(21);
+    N1HFfSUB3->SetMarkerStyle(25);
     N1HFfSUB3->SetMarkerSize(1.2);
     N1HFfSUB3->SetMarkerColor(kBlue);
     N1HFfSUB3->SetLineColor(kBlue);
@@ -89,21 +89,22 @@ void fig3B() {
     TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
     // tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
-    tx0->AddText("AMPT PbPb, 5.02 TeV, 0.3 < p_{T} < 3.0 GeV/c, {#eta_{C} = 0}");
+    tx0->AddText("AMPT PbPb, 5.02 TeV, 0.3 < p_{T} < 3.0 GeV/c");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.72, 0.83, 0.86, 0.87, "NDC");
-    SetTPaveTxt(tx1, 22);
+    TPaveText * tx1 = new TPaveText(0.23, 0.76, 0.41, 0.88, "NDC");
+    SetTPaveTxt(tx1, 28);
+    tx1->AddText("#eta_{C} = 0");
     tx1->AddText("20 - 60%");
     tx1->Draw();
 
-    TLegend * leg1 = new TLegend(0.20, 0.69, 0.51, 0.89);
-    SetLegend(leg1, 22);
+    TLegend * leg1 = new TLegend(0.19, 0.19, 0.50, 0.41);
+    SetLegend(leg1, 26);
     leg1->AddEntry(N1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
     leg1->AddEntry(N1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
     leg1->AddEntry(N1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");
     leg1->AddEntry(N1HFfSUB3,"4.5 < |#eta_{EP}| < 5.0","p");
-    leg1->Draw();
+    // leg1->Draw();
 
     c->Print("../figures/fig3B.pdf","pdf");
     c->Print("../figures/fig3B.png","png");

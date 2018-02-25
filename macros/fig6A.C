@@ -37,6 +37,7 @@ TFile * finSTAR;
 TFile * finSyst;
 TFile * finAMPT;
 TFile * finAMPTa;
+TFile * finAMPTtrue;
 
 TH1D * h1;
 TGraphErrors * N1HFfSUB3;
@@ -47,6 +48,7 @@ TGraphErrors * STAR_v1_mix_62GeV_eta;
 TGraphErrors * STAR_v1_ZDC_62GeV_eta;
 TGraphErrors * AMPT_decor;
 TGraphErrors * AMPT_nodecor;
+TGraphErrors * AMPT_true;
 
 
 void fig6A() {
@@ -73,6 +75,13 @@ void fig6A() {
     AMPT_decor->SetMarkerSize(1.3);
     AMPT_decor->SetMarkerColor(kOrange+7);
     AMPT_decor->SetLineColor(kOrange+7);
+
+    finAMPTtrue = new TFile("../data/ampt_true.root","read");
+    AMPT_true = (TGraphErrors *) finAMPTtrue->Get("v1true_eta_10_70");
+    AMPT_true->SetMarkerStyle(21);
+    AMPT_true->SetMarkerSize(1.2);
+    AMPT_true->SetMarkerColor(kGreen+2);
+    AMPT_true->SetLineColor(kGreen+2);
 
     // retrieve ALICE results
     finALICE = new TFile("../data/PRL_111_232302.root","read");
@@ -143,6 +152,7 @@ void fig6A() {
     // STAR_v1_ZDC_62GeV_eta->Draw("same p");
     // AMPT_nodecor->Draw("same p");
     AMPT_decor->Draw("same p");
+    AMPT_true->Draw("same p");
     N1HFfSUB3->Draw("same p");
 
     TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
@@ -150,16 +160,17 @@ void fig6A() {
     tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx0->Draw();
 
-    TLegend * leg1 = new TLegend(0.56, 0.69, 0.75, 0.88);
-    SetLegend(leg1, 20);
+    TLegend * leg1 = new TLegend(0.53, 0.64, 0.72, 0.89);
+    SetLegend(leg1, 22);
     leg1->SetHeader("Participant v_{1}^{odd} (10 - 60%)");
     leg1->AddEntry(N1HFfSUB3,"CMS {#eta_{C} = #eta_{ROI}}","p");
     // leg1->AddEntry(AMPT_nodecor,"AMPT {#eta_{C} = 0","p");
     leg1->AddEntry(AMPT_decor,"AMPT {#eta_{C} = #eta_{ROI}}","p");
+    leg1->AddEntry(AMPT_true,"AMPT <cos(#phi - #Psi_{RP})>","p");
     leg1->Draw();
 
-    TLegend * leg2 = new TLegend(0.23, 0.20, 0.43, 0.31);
-    SetLegend(leg2, 20);
+    TLegend * leg2 = new TLegend(0.23, 0.22, 0.43, 0.34);
+    SetLegend(leg2, 22);
     leg2->SetHeader("Spectator v_{1}^{odd}");
     leg2->AddEntry(ALICE_v1odd_eta_c10_60,"ALICE ZDC, PbPb 2.76 TeV","p");
     leg2->Draw();

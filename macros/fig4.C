@@ -42,7 +42,7 @@ TGraphErrors * N1EVENSUB3_syst[ncbins];
 
 void fig4() {
 
-    fin = new TFile("../data/data_fig4A.root");
+    fin = new TFile("../data/data_fig4.root");
 
     int col[] = {kRed, kOrange+5, kBlue, kGreen+2, kCyan+2, kMagenta, kBlack, kRed, kBlue, kGreen+2, kCyan+2};
     int mrkstyle[] =   {20,  25,  21,  28,  33,  27,  24,  34, 27,  20,  31};

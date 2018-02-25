@@ -29,16 +29,22 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 }
 
 TFile * fin;
+TFile * finAMPT;
 TH1D * h1;
 TH1D * h2;
 TGraphErrors * N1HFcSUB3;
 TGraphErrors * N1HFdSUB3;
 TGraphErrors * N1HFeSUB3;
 TGraphErrors * N1HFfSUB3;
+TGraphErrors * N1HFcSUB3_ampt;
+TGraphErrors * N1HFdSUB3_ampt;
+TGraphErrors * N1HFeSUB3_ampt;
+TGraphErrors * N1HFfSUB3_ampt;
 
-void fig3C() {
+void fig3E() {
 
-    fin = new TFile("../data/data_fig3C.root");
+    fin = new TFile("../data/data_fig3A.root");
+    finAMPT = new TFile("../data/data_fig3C.root");
 
     TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd();
@@ -59,32 +65,60 @@ void fig3C() {
     h1->Draw();
 
     N1HFcSUB3 = (TGraphErrors *) fin->Get("N1HFcSUB3/-2.0_2.0/20_60/gint");
-    N1HFcSUB3->SetMarkerStyle(24);
+    N1HFcSUB3->SetMarkerStyle(20);
     N1HFcSUB3->SetMarkerSize(1.3);
     N1HFcSUB3->SetMarkerColor(kBlack);
     N1HFcSUB3->SetLineColor(kBlack);
     N1HFcSUB3->Draw("same p");
 
     N1HFdSUB3 = (TGraphErrors *) fin->Get("N1HFdSUB3/-2.0_2.0/20_60/gint");
-    N1HFdSUB3->SetMarkerStyle(25);
+    N1HFdSUB3->SetMarkerStyle(21);
     N1HFdSUB3->SetMarkerSize(1.2);
     N1HFdSUB3->SetMarkerColor(kRed);
     N1HFdSUB3->SetLineColor(kRed);
     N1HFdSUB3->Draw("same p");
 
     N1HFeSUB3 = (TGraphErrors *) fin->Get("N1HFeSUB3/-2.0_2.0/20_60/gint");
-    N1HFeSUB3->SetMarkerStyle(24);
+    N1HFeSUB3->SetMarkerStyle(20);
     N1HFeSUB3->SetMarkerSize(1.3);
     N1HFeSUB3->SetMarkerColor(kGreen+2);
     N1HFeSUB3->SetLineColor(kGreen+2);
     N1HFeSUB3->Draw("same p");
 
     N1HFfSUB3 = (TGraphErrors *) fin->Get("N1HFfSUB3/-2.0_2.0/20_60/gint");
-    N1HFfSUB3->SetMarkerStyle(25);
+    N1HFfSUB3->SetMarkerStyle(21);
     N1HFfSUB3->SetMarkerSize(1.2);
     N1HFfSUB3->SetMarkerColor(kBlue);
     N1HFfSUB3->SetLineColor(kBlue);
     N1HFfSUB3->Draw("same p");
+
+    N1HFcSUB3_ampt = (TGraphErrors *) finAMPT->Get("N1HFcSUB3/-2.0_2.0/20_60/gint");
+    N1HFcSUB3_ampt->SetMarkerStyle(24);
+    N1HFcSUB3_ampt->SetMarkerSize(1.3);
+    N1HFcSUB3_ampt->SetMarkerColor(kBlack);
+    N1HFcSUB3_ampt->SetLineColor(kBlack);
+    N1HFcSUB3_ampt->Draw("same p");
+
+    N1HFdSUB3_ampt = (TGraphErrors *) finAMPT->Get("N1HFdSUB3/-2.0_2.0/20_60/gint");
+    N1HFdSUB3_ampt->SetMarkerStyle(25);
+    N1HFdSUB3_ampt->SetMarkerSize(1.2);
+    N1HFdSUB3_ampt->SetMarkerColor(kRed);
+    N1HFdSUB3_ampt->SetLineColor(kRed);
+    N1HFdSUB3_ampt->Draw("same p");
+
+    N1HFeSUB3_ampt = (TGraphErrors *) finAMPT->Get("N1HFeSUB3/-2.0_2.0/20_60/gint");
+    N1HFeSUB3_ampt->SetMarkerStyle(24);
+    N1HFeSUB3_ampt->SetMarkerSize(1.3);
+    N1HFeSUB3_ampt->SetMarkerColor(kGreen+2);
+    N1HFeSUB3_ampt->SetLineColor(kGreen+2);
+    N1HFeSUB3_ampt->Draw("same p");
+
+    N1HFfSUB3_ampt = (TGraphErrors *) finAMPT->Get("N1HFfSUB3/-2.0_2.0/20_60/gint");
+    N1HFfSUB3_ampt->SetMarkerStyle(25);
+    N1HFfSUB3_ampt->SetMarkerSize(1.2);
+    N1HFfSUB3_ampt->SetMarkerColor(kBlue);
+    N1HFfSUB3_ampt->SetLineColor(kBlue);
+    N1HFfSUB3_ampt->Draw("same p");
 
     TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
@@ -96,15 +130,21 @@ void fig3C() {
     tx1->AddText("#eta_{C} = #eta_{ROI}");
     tx1->Draw();
 
-    TLegend * leg1 = new TLegend(0.20, 0.69, 0.51, 0.89);
-    SetLegend(leg1, 26);
-    leg1->AddEntry(N1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
-    leg1->AddEntry(N1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
-    leg1->AddEntry(N1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");
-    leg1->AddEntry(N1HFfSUB3,"4.5 < |#eta_{EP}| < 5.0","p");
+    TLegend * leg1 = new TLegend(0.42, 0.19, 0.72, 0.43);
+    SetLegend(leg1, 20);
+    leg1->SetNColumns(2);
+    leg1->SetHeader("CMS    AMPT");
+    leg1->AddEntry(N1HFcSUB3,"            ","p");
+    leg1->AddEntry(N1HFcSUB3_ampt,"       3.0 < |#eta_{EP}| < 3.5","p");
+    leg1->AddEntry(N1HFdSUB3,"            ","p");
+    leg1->AddEntry(N1HFdSUB3_ampt,"       3.5 < |#eta_{EP}| < 4.0","p");
+    leg1->AddEntry(N1HFeSUB3,"            ","p");
+    leg1->AddEntry(N1HFeSUB3_ampt,"       4.0 < |#eta_{EP}| < 4.5","p");
+    leg1->AddEntry(N1HFfSUB3,"            ","p");
+    leg1->AddEntry(N1HFfSUB3_ampt,"       4.5 < |#eta_{EP}| < 5.0","p");
     leg1->Draw();
 
-    c->Print("../figures/fig3C.pdf","pdf");
-    c->Print("../figures/fig3C.png","png");
+    c->Print("../figures/fig3E.pdf","pdf");
+    c->Print("../figures/fig3E.png","png");
 
 }
