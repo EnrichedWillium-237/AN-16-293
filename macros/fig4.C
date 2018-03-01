@@ -51,21 +51,6 @@ void fig4() {
     // Average negative and positive side v1even
     for (int i = 0; i<ncbins; i++) {
         N1EVENSUB3[i] = (TGraphErrors *) fin->Get(Form("N1EVENSUB3/-2.4_2.4/%d_%d/gA",cmin[i],cmax[i]));
-    //     N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.4_-0.4/%d_%d/gA",cmin[i],cmax[i]));
-    //     N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.4_2.4/%d_%d/gA",cmin[i],cmax[i]));
-    //     Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
-    //     int num = N1MCp22SUB3[i]->GetN();
-    //     for (int j = 0; j<num; j++) {
-    //         N1MCp22SUB3[i]->GetPoint(j, xp[j], yp[j]);
-    //         yperr[j] = N1MCp22SUB3[i]->GetErrorY(j);
-    //
-    //         N1MCm22SUB3[i]->GetPoint(j, xm[j], ym[j]);
-    //         ymerr[j] = N1MCm22SUB3[i]->GetErrorY(j);
-    //
-    //         ypm[j] = 0.5*(yp[j] + ym[j]);
-    //         ypmerr[j] = 0.5*sqrt( yperr[j]*yperr[j] + ymerr[j]*ymerr[j] );
-    //     }
-    //     N1EVENSUB3[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
     }
 
     for (int i = 0; i<ncbins; i++) {
@@ -120,7 +105,7 @@ void fig4() {
 
     TPaveText * tx0 = new TPaveText(0.184, 0.947, 0.399, 0.986, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{odd}{#eta_{C} = 0}");
+    tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
 
     TLegend * leg1 = new TLegend(0.24, 0.73, 0.63, 0.89);
@@ -163,6 +148,6 @@ void fig4() {
     leg2->Draw();
 
     c->Print("../figures/fig4.pdf","pdf");
-    c->Print("../figures/fig4.png","png");
+    // c->Print("../figures/fig4.png","png");
 
 }

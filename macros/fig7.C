@@ -36,8 +36,8 @@ TFile * finATLAS;
 TFile * finALICE;
 TFile * finSyst;
 TH1D * h1;
-TGraphErrors * N1MCp22SUB2;
-TGraphErrors * N1MCm22SUB2;
+TGraphErrors * N1EVENASUB3;
+TGraphErrors * N1EVENB2SUB3;
 TGraphErrors * N1MC22SUB2;
 TGraphErrors * N1MC22SUB2_syst;
 TH1D * ATLAS_v1even_2PC_PbPb_30_40;
@@ -73,16 +73,16 @@ void fig7() {
     ALICE_v1even_eta_c5_80->SetMarkerSize(1.2);
 
     // Average negative and positive side v1even
-    N1MCp22SUB2 = (TGraphErrors *) finCMS->Get(Form("N1MCp22SUB2/-2.4_-0.4/%d_%d/gA",cminREF,cmaxREF));
-    N1MCm22SUB2 = (TGraphErrors *) finCMS->Get(Form("N1MCm22SUB2/0.4_2.4/%d_%d/gA",cminREF,cmaxREF));
+    N1EVENASUB3 = (TGraphErrors *) finCMS->Get(Form("N1EVENSUB3/-2.4_-0.4/%d_%d/gA",cminREF,cmaxREF));
+    N1EVENB2SUB3 = (TGraphErrors *) finCMS->Get(Form("N1EVENSUB3/0.4_2.4/%d_%d/gA",cminREF,cmaxREF));
     Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
-    int num = N1MCp22SUB2->GetN();
+    int num = N1EVENASUB3->GetN();
     for (int j = 0; j<num; j++) {
-        N1MCp22SUB2->GetPoint(j, xp[j], yp[j]);
-        yperr[j] = N1MCp22SUB2->GetErrorY(j);
+        N1EVENASUB3->GetPoint(j, xp[j], yp[j]);
+        yperr[j] = N1EVENASUB3->GetErrorY(j);
 
-        N1MCm22SUB2->GetPoint(j, xm[j], ym[j]);
-        ymerr[j] = N1MCm22SUB2->GetErrorY(j);
+        N1EVENB2SUB3->GetPoint(j, xm[j], ym[j]);
+        ymerr[j] = N1EVENB2SUB3->GetErrorY(j);
 
         ypm[j] = 0.5*(yp[j] + ym[j]);
         ypmerr[j] = 0.5*sqrt( yperr[j]*yperr[j] + ymerr[j]*ymerr[j] );
@@ -102,7 +102,7 @@ void fig7() {
     for (int j = 0; j<num; j++) {
         N1MC22SUB2->GetPoint(j, x[j], y[j]);
         xerr[j] = 0.1;
-        TH1D * hsyst = (TH1D *) finSyst->Get("even_errors/even_30_35"); // not significantly different from 30-40
+        TH1D * hsyst = (TH1D *) finSyst->Get("even_errors/even_30_35");
         ysyst[j] = y[j] * hsyst->GetBinContent(1);
         hsyst->Delete();
     }
@@ -147,9 +147,10 @@ void fig7() {
     leg1->Draw();
 
     c->Print("../figures/fig7.pdf","pdf");
-    c->Print("../figures/fig7.png","png");
+    // c->Print("../figures/fig7.png","png");
 
 
+/*
     // alternate version
     TCanvas * c_v2 = new TCanvas("c1_v2", "c_v2", 620, 600);
     TPad * pad1_v2 = (TPad *) c_v2->cd(1);
@@ -173,7 +174,7 @@ void fig7() {
     TLegend * leg1_v2 = new TLegend(0.22, 0.75, 0.44, 0.89);
     SetLegend(leg1_v2, 18);
     leg1_v2->SetHeader("Participant v_{1}^{even}");
-    leg1_v2->AddEntry(N1MC22SUB2,Form("CMS (%d-%d%%) {#eta_{C} = 0}",cminREF,cmaxREF),"p");
+    leg1_v2->AddEntry(N1MC22SUB2,Form("CMS (%d-%d%%)",cminREF,cmaxREF),"p");
     leg1_v2->AddEntry(ATLAS_v1even_2PC_PbPb_30_40,Form("ATLAS 2PC fit, PbPb 2.76 TeV (%d-%d%%)",cminREF,cmaxREF),"lp");
     leg1_v2->Draw();
 
@@ -185,5 +186,6 @@ void fig7() {
 
     c_v2->Print("../figures/fig7_v2.pdf","pdf");
     c_v2->Print("../figures/fig7_v2.png","png");
+    */
 
 }

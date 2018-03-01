@@ -44,7 +44,7 @@ void fig3() {
     TPad * pad1 = (TPad *) c->cd();
     pad1->SetTopMargin(0.08);
     pad1->SetLeftMargin(0.18);
-    h1 = new TH1D("h1", "", 100, -2.15, 2.15);
+    h1 = new TH1D("h1", "", 100, -2.5, 2.5);
     h1->SetStats(0);
     h1->SetXTitle("#eta");
     h1->SetYTitle("v_{1}^{odd}");
@@ -55,7 +55,7 @@ void fig3() {
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
     h1->GetYaxis()->SetTitleOffset(1.65);
-    h1->GetYaxis()->SetRangeUser(-0.02, 0.02);
+    h1->GetYaxis()->SetRangeUser(-0.015, 0.015);
     h1->Draw();
 
     N1HFcSUB3 = (TGraphErrors *) fin->Get("N1HFcSUB3/-2.0_2.0/20_60/gint");
@@ -66,14 +66,14 @@ void fig3() {
     N1HFcSUB3->Draw("same p");
 
     N1HFdSUB3 = (TGraphErrors *) fin->Get("N1HFdSUB3/-2.0_2.0/20_60/gint");
-    N1HFdSUB3->SetMarkerStyle(21);
+    N1HFdSUB3->SetMarkerStyle(25);
     N1HFdSUB3->SetMarkerSize(1.2);
     N1HFdSUB3->SetMarkerColor(kRed);
     N1HFdSUB3->SetLineColor(kRed);
     N1HFdSUB3->Draw("same p");
 
     N1HFeSUB3 = (TGraphErrors *) fin->Get("N1HFeSUB3/-2.0_2.0/20_60/gint");
-    N1HFeSUB3->SetMarkerStyle(20);
+    N1HFeSUB3->SetMarkerStyle(24);
     N1HFeSUB3->SetMarkerSize(1.3);
     N1HFeSUB3->SetMarkerColor(kGreen+2);
     N1HFeSUB3->SetLineColor(kGreen+2);
@@ -91,14 +91,13 @@ void fig3() {
     tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.69, 0.72, 0.87, 0.86, "NDC");
-    SetTPaveTxt(tx1, 28);
-    tx1->AddText("#eta_{C} = 0");
+    TPaveText * tx1 = new TPaveText(0.35, 0.83, 0.50, 0.87, "NDC");
+    SetTPaveTxt(tx1, 26);
     tx1->AddText("20 - 60%");
     tx1->Draw();
 
-    TLegend * leg1 = new TLegend(0.19, 0.19, 0.50, 0.41);
-    SetLegend(leg1, 26);
+    TLegend * leg1 = new TLegend(0.55, 0.67, 0.86, 0.88);
+    SetLegend(leg1, 22);
     leg1->AddEntry(N1HFcSUB3,"3.0 < |#eta_{EP}| < 3.5","p");
     leg1->AddEntry(N1HFdSUB3,"3.5 < |#eta_{EP}| < 4.0","p");
     leg1->AddEntry(N1HFeSUB3,"4.0 < |#eta_{EP}| < 4.5","p");
@@ -106,6 +105,6 @@ void fig3() {
     leg1->Draw();
 
     c->Print("../figures/fig3.pdf","pdf");
-    c->Print("../figures/fig3.png","png");
+    // c->Print("../figures/fig3.png","png");
 
 }

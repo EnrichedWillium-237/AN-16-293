@@ -49,29 +49,7 @@ void fig5() {
     double mrksize[] = {1.3, 1.2, 1.2, 1.6, 1.8, 1.8, 1.2, 1.6, 1.8, 1.2, 1.4};
 
     for (int i = 0; i<ncbins; i++) {
-        // N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.4_-0.4/%d_%d/gintA",cmin[i],cmax[i]));
-        // N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.4_2.4/%d_%d/gintA",cmin[i],cmax[i]));
         N1EVENSUB3[i] = (TGraphErrors *) fin->Get(Form("N1EVENSUB3/-2.4_2.4/%d_%d/gint",cmin[i],cmax[i]));
-        // N1MCp22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCp22SUB3/-2.0_0.0/%d_%d/gintA",cmin[i],cmax[i]));
-        // N1MCm22SUB3[i] = (TGraphErrors *) fin->Get(Form("N1MCm22SUB3/0.0_2.0/%d_%d/gintA",cmin[i],cmax[i]));
-        // Double_t xp[50], xm[50], yp[50], ym[50], yperr[50], ymerr[50], ypm[50], ypmerr[50];
-        // int num = N1MCp22SUB3[i]->GetN();
-        // for (int j = 0; j<num; j++) {
-        //     N1MCp22SUB3[i]->GetPoint(j, xp[j], yp[j]);
-        //     yperr[j] = N1MCp22SUB3[i]->GetErrorY(j);
-        //
-        //     N1MCm22SUB3[i]->GetPoint(j, xm[j], ym[j]);
-        //     ymerr[j] = N1MCm22SUB3[i]->GetErrorY(j);
-        //
-        //     if (xp[j]<0.0) {
-        //         ypm[j] = yp[j];
-        //         ypmerr[j] = yperr[j];
-        //     } else {
-        //         ypm[j] = ym[j];
-        //         ypmerr[j] = ymerr[j];
-        //     }
-        // }
-        // N1EVENSUB3[i] = new TGraphErrors(num, xp, ypm, 0, ypmerr);
     }
 
     for (int i = 0; i<ncbins; i++) {
@@ -133,7 +111,7 @@ void fig5() {
 
     TPaveText * tx0 = new TPaveText(0.184, 0.947, 0.399, 0.986, "NDC");
     SetTPaveTxt(tx0, 20);
-    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{even}{#eta_{C} = 0}");
+    tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
 
     TLegend * leg1 = new TLegend(0.36, 0.58, 0.88, 0.88);
@@ -174,6 +152,6 @@ void fig5() {
     tx1->Draw();
 
     c->Print("../figures/fig5.pdf","pdf");
-    c->Print("../figures/fig5.png","png");
+    // c->Print("../figures/fig5.png","png");
 
 }

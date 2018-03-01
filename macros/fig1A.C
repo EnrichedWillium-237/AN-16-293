@@ -31,7 +31,6 @@ TFile * fin;
 TFile * finA;
 TFile * finSyst;
 TH1D * h1;
-TH1D * h2;
 TGraphErrors * N1AHFfSUB3_10_15;
 TGraphErrors * N1BHFfSUB3_10_15;
 TGraphErrors * N1AHFfSUB3_40_50;
@@ -131,11 +130,11 @@ void fig1A() {
         yav[j] = 0.5*(yA[j] + yB[j]);
         yerrav[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
     }
-    TGraphErrors * N1HFfSUB3A_10_15_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
-    N1HFfSUB3A_10_15_ave->SetMarkerStyle(21);
-    N1HFfSUB3A_10_15_ave->SetMarkerSize(1.2);
-    N1HFfSUB3A_10_15_ave->SetMarkerColor(kBlue);
-    N1HFfSUB3A_10_15_ave->SetLineColor(kBlue);
+    TGraphErrors * N1AHFfSUB3A_10_15_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
+    N1AHFfSUB3A_10_15_ave->SetMarkerStyle(21);
+    N1AHFfSUB3A_10_15_ave->SetMarkerSize(1.2);
+    N1AHFfSUB3A_10_15_ave->SetMarkerColor(kBlue);
+    N1AHFfSUB3A_10_15_ave->SetLineColor(kBlue);
 
     for (int j = 0; j<numave; j++) {
         N1AHFfSUB3A_40_50->GetPoint(j, xA[j], yA[j]);
@@ -152,11 +151,11 @@ void fig1A() {
         yav[j] = 0.5*(yA[j] + yB[j]);
         yerrav[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
     }
-    TGraphErrors * N1HFfSUB3A_40_50_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
-    N1HFfSUB3A_40_50_ave->SetMarkerStyle(20);
-    N1HFfSUB3A_40_50_ave->SetMarkerSize(1.3);
-    N1HFfSUB3A_40_50_ave->SetMarkerColor(kRed);
-    N1HFfSUB3A_40_50_ave->SetLineColor(kRed);
+    TGraphErrors * N1AHFfSUB3A_40_50_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
+    N1AHFfSUB3A_40_50_ave->SetMarkerStyle(20);
+    N1AHFfSUB3A_40_50_ave->SetMarkerSize(1.3);
+    N1AHFfSUB3a_40_50_ave->SetMarkerColor(kRed);
+    N1AHFfSUB3A_40_50_ave->SetLineColor(kRed);
 
 
     //-- systematics
@@ -216,8 +215,9 @@ void fig1A() {
     TCanvas * c = new TCanvas("c", "c", 1000, 600);
     c->Divide(2,1,0,0);
     TPad * pad1 = (TPad *) c->cd(1);
-    pad1->SetTopMargin(0.07);
-    h1 = new TH1D("h1", "", 100, 0.001, 7.3);
+    pad1->SetTopMargin(0.08);
+    pad1->SetLeftMargin(0.18);
+    h1 = new TH1D("h1", "", 100, 0, 7);
     h1->SetStats(0);
     h1->SetXTitle("p_{T} (GeV/c)");
     h1->SetYTitle("v_{1}^{odd}");
@@ -233,15 +233,17 @@ void fig1A() {
     N1HFfSUB3_10_15_ave->Draw("same p");
     N1HFfSUB3_40_50_ave->Draw("same p");
 
-    TPaveText * tx0 = new TPaveText(0.188, 0.938, 0.431, 0.984, "NDC");
-    SetTPaveTxt(tx0, 22);
-    tx0->AddText("#bf{CMS} #it{Preliminary}");
+    TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
+    SetTPaveTxt(tx0, 20);
+    tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  1.2 < |#eta| < 1.6");
     tx0->Draw();
 
-    TPaveText * tx1 = new TPaveText(0.52, 0.80, 0.67, 0.89, "NDC");
-    SetTPaveTxt(tx1, 28);
-    tx1->AddText("#eta_{C} = 0");
-    tx1->Draw();
+    TLegend * leg1 = new TLegend(0.25, 0.21, 0.41, 0.39);
+    SetLegend(leg1, 22);
+    leg1->SetHeader("#eta_{C} = #eta_{ROI}");
+    leg1->AddEntry(N1BHFfSUB3_10_15,"10-15%","p");
+    leg1->AddEntry(N1BHFfSUB3_40_50,"40-50%","p");
+    leg1->Draw();
 
     TPad * pad2 = (TPad *) c->cd(2);
     pad2->SetTopMargin(0.07);
@@ -258,22 +260,6 @@ void fig1A() {
     N1HFfSUB3A_40_50_ave_syst->Draw("same 2");
     N1HFfSUB3A_10_15_ave->Draw("same p");
     N1HFfSUB3A_40_50_ave->Draw("same p");
-
-    TPaveText * tx2 = new TPaveText(0.001, 0.938, 0.219, 0.984, "NDC");
-    SetTPaveTxt(tx2, 22);
-    tx2->AddText("PbPb 5.02 TeV,  1.2 < |#eta| < 1.6");
-    tx2->Draw();
-
-    TPaveText * tx3 = new TPaveText(0.42, 0.80, 0.57, 0.89, "NDC");
-    SetTPaveTxt(tx3, 28);
-    tx3->AddText("#eta_{C} = #eta_{ROI}");
-    tx3->Draw();
-
-    TLegend * leg1 = new TLegend(0.09, 0.24, 0.36, 0.37);
-    SetLegend(leg1, 26);
-    leg1->AddEntry(N1HFfSUB3_10_15_ave,"10-15%","p");
-    leg1->AddEntry(N1HFfSUB3_40_50_ave,"40-50%","p");
-    leg1->Draw();
 
     c->Print("../figures/fig1A.pdf","pdf");
     c->Print("../figures/fig1A.png","png");

@@ -97,13 +97,13 @@ void fig2A() {
         N1HFfSUB3[i]->Draw("same p");
     }
 
-    TPaveText * tx0 = new TPaveText(0.188, 0.938, 0.431, 0.984, "NDC");
-    SetTPaveTxt(tx0, 22);
+    TPaveText * tx0 = new TPaveText(0.184, 0.947, 0.399, 0.986, "NDC");
+    SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{odd}{#eta_{C} = #eta_{ROI}}");
     tx0->Draw();
 
-    TLegend * leg1 = new TLegend(0.25, 0.22, 0.73, 0.38);
-    SetLegend(leg1, 24);
+    TLegend * leg1 = new TLegend(0.25, 0.22, 0.64, 0.38);
+    SetLegend(leg1, 22);
     leg1->SetNColumns(2);
     for (int i = 0; i<=5; i++) {
         leg1->AddEntry(N1HFfSUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
@@ -128,14 +128,14 @@ void fig2A() {
         N1HFfSUB3[i]->Draw("same p");
     }
 
-    TPaveText * tx1 = new TPaveText(0.001, 0.938, 0.219, 0.984, "NDC");
-    SetTPaveTxt(tx1, 22);
+    TPaveText * tx1 = new TPaveText(0.001, 0.938, 0.219, 0.981, "NDC");
+    SetTPaveTxt(tx1, 20);
     tx1->AddText("PbPb 5.02 TeV,  0.3 < p_{T} < 3.0 GeV/c");
     tx1->Draw();
 
-    TLegend * leg2 = new TLegend(0.06, 0.22, 0.63, 0.38);
+    TLegend * leg2 = new TLegend(0.06, 0.22, 0.54, 0.38);
     leg2->SetNColumns(2);
-    SetLegend(leg2, 24);
+    SetLegend(leg2, 22);
     for (int i = 6; i<ncbins; i++) {
         leg2->AddEntry(N1HFfSUB3[i],Form("%d-%d%%",cmin[i],cmax[i]),"p");
     }

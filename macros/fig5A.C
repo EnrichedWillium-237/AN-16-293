@@ -127,7 +127,7 @@ void fig5A() {
     TBox * box0 = new TBox(-0.4, -0.013, 0.4, 0.02);
     box0->SetFillColor(kWhite);
     box0->SetFillStyle(1001);
-    box0->Draw("same");
+    // box0->Draw("same");
     TLine * ln0 = new TLine(-2.8, 0.0, 2.8, 0.0);
     ln0->Draw();
 
@@ -164,7 +164,7 @@ void fig5A() {
     TBox * box1 = new TBox(-0.4, -0.013, 0.4, 0.02);
     box1->SetFillColor(kWhite);
     box1->SetFillStyle(1001);
-    box1->Draw("same");
+    //box1->Draw("same");
     TLine * ln1 = new TLine(-2.8, 0.0, 2.8, 0.0);
     ln1->Draw();
 

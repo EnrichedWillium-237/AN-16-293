@@ -99,7 +99,7 @@ void fig2() {
 
     TPaveText * tx0 = new TPaveText(0.188, 0.938, 0.431, 0.984, "NDC");
     SetTPaveTxt(tx0, 22);
-    tx0->AddText("#bf{CMS} #it{Preliminary},  v_{1}^{odd}{#eta_{C} = 0}");
+    tx0->AddText("#bf{CMS} #it{Preliminary}");
     tx0->Draw();
 
     TLegend * leg1 = new TLegend(0.25, 0.22, 0.73, 0.38);
@@ -142,6 +142,6 @@ void fig2() {
     leg2->Draw();
 
     c->Print("../figures/fig2.pdf","pdf");
-    c->Print("../figures/fig2.png","png");
+    // c->Print("../figures/fig2.png","png");
 
 }
