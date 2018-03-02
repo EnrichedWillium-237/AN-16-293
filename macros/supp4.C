@@ -32,10 +32,12 @@ void SetLegend( TLegend * legtemplate, int legsize ) {
 }
 
 TFile * finCMS;
+TFile * finSyst;
 TFile * finAMPT;
 
 TH1D * h1;
 TGraphErrors * N1SUB3;
+TGraphErrors * N1SUB3_syst;
 TGraphErrors * N1SUB3_ampt;
 
 void supp4() {
@@ -58,6 +60,23 @@ void supp4() {
     N1SUB3_ampt->SetFillColor(kGreen-6);
     N1SUB3_ampt->SetFillStyle(1001);
 
+    //-- systematics
+    finSyst = new TFile("../data/data_systematics.root","read");
+
+    Double_t x[50], y[50], xerr[50], ysyst[50];
+    int num = N1SUB3->GetN();
+    for (int j = 0; j<num; j++) {
+        N1SUB3->GetPoint(j, x[j], y[j]);
+        xerr[j] = 0.1;
+        TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_20_60");
+        ysyst[j] = y[j] * hsyst->GetBinContent(1);
+        hsyst->Delete();
+    }
+    N1SUB3_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1SUB3_syst->SetLineColor(kBlue-10);
+    N1SUB3_syst->SetFillColor(kBlue-10);
+    //--
+
     TCanvas * c = new TCanvas("c", "c", 620, 600);
     TPad * pad1 = (TPad *) c->cd();
     pad1->SetTopMargin(0.08);
@@ -74,6 +93,7 @@ void supp4() {
     h1->GetYaxis()->SetRangeUser(-0.012, 0.012);
     h1->Draw();
     N1SUB3_ampt->Draw("same E3");
+    N1SUB3_syst->Draw("same 2");
     N1SUB3->Draw("same p");
 
     TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
