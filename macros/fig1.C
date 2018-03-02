@@ -35,38 +35,14 @@ TGraphErrors * N1BHFfSUB3_10_15;
 TGraphErrors * N1AHFfSUB3_40_50;
 TGraphErrors * N1BHFfSUB3_40_50;
 
-TGraphErrors * N1AHFfSUB3_10_15_syst;
-TGraphErrors * N1BHFfSUB3_10_15_syst;
-TGraphErrors * N1AHFfSUB3_40_50_syst;
-TGraphErrors * N1BHFfSUB3_40_50_syst;
-
 void fig1() {
 
     fin = new TFile("../data/data_fig1.root","read");
 
     N1AHFfSUB3_10_15 = (TGraphErrors *) fin->Get("N1HFfSUB3/-1.6_-1.2/10_15/g");
-    N1AHFfSUB3_10_15->SetMarkerStyle(25);
-    N1AHFfSUB3_10_15->SetMarkerSize(1.2);
-    N1AHFfSUB3_10_15->SetMarkerColor(kBlue);
-    N1AHFfSUB3_10_15->SetLineColor(kBlue);
-
     N1BHFfSUB3_10_15 = (TGraphErrors *) fin->Get("N1HFfSUB3/1.2_1.6/10_15/g");
-    N1BHFfSUB3_10_15->SetMarkerStyle(21);
-    N1BHFfSUB3_10_15->SetMarkerSize(1.2);
-    N1BHFfSUB3_10_15->SetMarkerColor(kBlue);
-    N1BHFfSUB3_10_15->SetLineColor(kBlue);
-
     N1AHFfSUB3_40_50 = (TGraphErrors *) fin->Get("N1HFfSUB3/-1.6_-1.2/40_50/g");
-    N1AHFfSUB3_40_50->SetMarkerStyle(24);
-    N1AHFfSUB3_40_50->SetMarkerSize(1.3);
-    N1AHFfSUB3_40_50->SetMarkerColor(kRed);
-    N1AHFfSUB3_40_50->SetLineColor(kRed);
-
     N1BHFfSUB3_40_50 = (TGraphErrors *) fin->Get("N1HFfSUB3/1.2_1.6/40_50/g");
-    N1BHFfSUB3_40_50->SetMarkerStyle(20);
-    N1BHFfSUB3_40_50->SetMarkerSize(1.3);
-    N1BHFfSUB3_40_50->SetMarkerColor(kRed);
-    N1BHFfSUB3_40_50->SetLineColor(kRed);
 
 
     // average sides of the HF
@@ -89,11 +65,11 @@ void fig1() {
         yav[j] = 0.5*(yA[j] + yB[j]);
         yerrav[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
     }
-    TGraphErrors * N1AHFfSUB3_10_15_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
-    N1AHFfSUB3_10_15_ave->SetMarkerStyle(21);
-    N1AHFfSUB3_10_15_ave->SetMarkerSize(1.2);
-    N1AHFfSUB3_10_15_ave->SetMarkerColor(kBlue);
-    N1AHFfSUB3_10_15_ave->SetLineColor(kBlue);
+    TGraphErrors * N1HFfSUB3_10_15_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
+    N1HFfSUB3_10_15_ave->SetMarkerStyle(21);
+    N1HFfSUB3_10_15_ave->SetMarkerSize(1.2);
+    N1HFfSUB3_10_15_ave->SetMarkerColor(kBlue);
+    N1HFfSUB3_10_15_ave->SetLineColor(kBlue);
 
     for (int j = 0; j<numave; j++) {
         N1AHFfSUB3_40_50->GetPoint(j, xA[j], yA[j]);
@@ -110,11 +86,11 @@ void fig1() {
         yav[j] = 0.5*(yA[j] + yB[j]);
         yerrav[j] = 0.5*sqrt( pow(yAerr[j],2) + pow(yBerr[j],2) );
     }
-    TGraphErrors * N1AHFfSUB3_40_50_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
-    N1AHFfSUB3_40_50_ave->SetMarkerStyle(20);
-    N1AHFfSUB3_40_50_ave->SetMarkerSize(1.3);
-    N1AHFfSUB3_40_50_ave->SetMarkerColor(kRed);
-    N1AHFfSUB3_40_50_ave->SetLineColor(kRed);
+    TGraphErrors * N1HFfSUB3_40_50_ave = new TGraphErrors(numave, xav, yav, xAerr, yerrav);
+    N1HFfSUB3_40_50_ave->SetMarkerStyle(20);
+    N1HFfSUB3_40_50_ave->SetMarkerSize(1.3);
+    N1HFfSUB3_40_50_ave->SetMarkerColor(kRed);
+    N1HFfSUB3_40_50_ave->SetLineColor(kRed);
 
 
 
@@ -124,74 +100,26 @@ void fig1() {
     Double_t x[50], y[50], xerr[50], ysyst[50];
     int num = N1AHFfSUB3_10_15->GetN();
     for (int j = 0; j<num; j++) {
-        N1AHFfSUB3_10_15->GetPoint(j, x[j], y[j]);
+        N1HFfSUB3_10_15_ave->GetPoint(j, x[j], y[j]);
         xerr[j] = 0.1;
         TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_10_15");
         ysyst[j] = y[j] * hsyst->GetBinContent(1);
         hsyst->Delete();
     }
-    N1AHFfSUB3_10_15_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1AHFfSUB3_10_15_syst->SetLineColor(kBlue-10);
-    N1AHFfSUB3_10_15_syst->SetFillColor(kBlue-10);
-
-    num = N1BHFfSUB3_10_15->GetN();
-    for (int j = 0; j<num; j++) {
-        N1BHFfSUB3_10_15->GetPoint(j, x[j], y[j]);
-        xerr[j] = 0.1;
-        TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_10_15");
-        ysyst[j] = y[j] * hsyst->GetBinContent(1);
-        hsyst->Delete();
-    }
-    N1BHFfSUB3_10_15_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1BHFfSUB3_10_15_syst->SetLineColor(kBlue-10);
-    N1BHFfSUB3_10_15_syst->SetFillColor(kBlue-10);
-
-    num = N1AHFfSUB3_40_50->GetN();
-    for (int j = 0; j<num; j++) {
-        N1AHFfSUB3_40_50->GetPoint(j, x[j], y[j]);
-        xerr[j] = 0.1;
-        TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_10_15");
-        ysyst[j] = y[j] * hsyst->GetBinContent(1);
-        hsyst->Delete();
-    }
-    N1AHFfSUB3_40_50_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1AHFfSUB3_40_50_syst->SetLineColor(kBlue-10);
-    N1AHFfSUB3_40_50_syst->SetFillColor(kBlue-10);
-
-    num = N1BHFfSUB3_40_50->GetN();
-    for (int j = 0; j<num; j++) {
-        N1BHFfSUB3_40_50->GetPoint(j, x[j], y[j]);
-        xerr[j] = 0.1;
-        TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_10_15");
-        ysyst[j] = y[j] * hsyst->GetBinContent(1);
-        hsyst->Delete();
-    }
-    N1BHFfSUB3_40_50_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1BHFfSUB3_40_50_syst->SetLineColor(kBlue-10);
-    N1BHFfSUB3_40_50_syst->SetFillColor(kBlue-10);
-
+    TGraphErrors * N1HFfSUB3_10_15_ave_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1HFfSUB3_10_15_ave_syst->SetLineColor(kBlue-10);
+    N1HFfSUB3_10_15_ave_syst->SetFillColor(kBlue-10);
 
     for (int j = 0; j<num; j++) {
-        N1AHFfSUB3_10_15_ave->GetPoint(j, x[j], y[j]);
-        xerr[j] = 0.1;
-        TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_10_15");
-        ysyst[j] = y[j] * hsyst->GetBinContent(1);
-        hsyst->Delete();
-    }
-    TGraphErrors * N1AHFfSUB3_10_15_ave_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1AHFfSUB3_10_15_ave_syst->SetLineColor(kBlue-10);
-    N1AHFfSUB3_10_15_ave_syst->SetFillColor(kBlue-10);
-
-    for (int j = 0; j<num; j++) {
-        N1AHFfSUB3_40_50_ave->GetPoint(j, x[j], y[j]);
+        N1HFfSUB3_40_50_ave->GetPoint(j, x[j], y[j]);
         xerr[j] = 0.1;
         TH1D * hsyst = (TH1D *) finSyst->Get("odd_errors/odd_40_50");
         ysyst[j] = y[j] * hsyst->GetBinContent(1);
         hsyst->Delete();
     }
-    TGraphErrors * N1AHFfSUB3_40_50_ave_syst = new TGraphErrors(num, x, y, xerr, ysyst);
-    N1AHFfSUB3_40_50_ave_syst->SetLineColor(kBlue-10);
-    N1AHFfSUB3_40_50_ave_syst->SetFillColor(kBlue-10);
+    TGraphErrors * N1HFfSUB3_40_50_ave_syst = new TGraphErrors(num, x, y, xerr, ysyst);
+    N1HFfSUB3_40_50_ave_syst->SetLineColor(kBlue-10);
+    N1HFfSUB3_40_50_ave_syst->SetFillColor(kBlue-10);
     //--
 
 
@@ -209,34 +137,25 @@ void fig1() {
     h1->GetYaxis()->CenterTitle();
     h1->GetXaxis()->SetTitleOffset(1.15);
     h1->GetYaxis()->SetTitleOffset(1.65);
-    h1->GetYaxis()->SetRangeUser(-0.06, 0.04);
+    h1->GetYaxis()->SetRangeUser(-0.06, 0.02);
     h1->Draw();
-    // N1AHFfSUB3_10_15_syst->Draw("same 2");
-    // N1BHFfSUB3_10_15_syst->Draw("same 2");
-    N1AHFfSUB3_10_15_ave_syst->Draw("same 2");
-    // N1AHFfSUB3_40_50_syst->Draw("same 2");
-    // N1BHFfSUB3_40_50_syst->Draw("same 2");
-    N1AHFfSUB3_40_50_ave_syst->Draw("same 2");
-    // N1AHFfSUB3_10_15->Draw("same p");
-    // N1BHFfSUB3_10_15->Draw("same p");
-    N1AHFfSUB3_10_15_ave->Draw("same p");
-    // N1AHFfSUB3_40_50->Draw("same p");
-    // N1BHFfSUB3_40_50->Draw("same p");
-    N1AHFfSUB3_40_50_ave->Draw("same p");
+    N1HFfSUB3_10_15_ave_syst->Draw("same 2");
+    N1HFfSUB3_40_50_ave_syst->Draw("same 2");
+    N1HFfSUB3_10_15_ave->Draw("same p");
+    N1HFfSUB3_40_50_ave->Draw("same p");
 
     TPaveText * tx0 = new TPaveText(0.178, 0.934, 0.420, 0.979, "NDC");
     SetTPaveTxt(tx0, 20);
     tx0->AddText("#bf{CMS} #it{Preliminary},  PbPb 5.02 TeV,  1.2 < |#eta| < 1.6");
     tx0->Draw();
 
-    TLegend * leg1 = new TLegend(0.25, 0.21, 0.41, 0.39);
-    SetLegend(leg1, 22);
-    leg1->SetHeader("#eta_{C} = 0");
-    leg1->AddEntry(N1BHFfSUB3_10_15,"10-15%","p");
-    leg1->AddEntry(N1BHFfSUB3_40_50,"40-50%","p");
+    TLegend * leg1 = new TLegend(0.24, 0.76, 0.43, 0.89);
+    SetLegend(leg1, 26);
+    leg1->AddEntry(N1HFfSUB3_10_15_ave,"10-15%","p");
+    leg1->AddEntry(N1HFfSUB3_40_50_ave,"40-50%","p");
     leg1->Draw();
 
     c->Print("../figures/fig1.pdf","pdf");
-    c->Print("../figures/fig1.png","png");
+    // c->Print("../figures/fig1.png","png");
 
 }
